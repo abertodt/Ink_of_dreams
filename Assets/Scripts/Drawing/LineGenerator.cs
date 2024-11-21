@@ -11,9 +11,12 @@ public class LineGenerator : MonoBehaviour
 
     Coroutine _drawing;
     public List<GameObject> _currentLines = new List<GameObject>();
+    public List<Vector2> _combinedStroke;
     int _activeLines;
     float totalDistance = 0f;
     GameObject line;
+    bool _isDrawing;
+    bool _isErasing;
 
 
     //Hay un bug si borras la lista e intentas dibujar muy rapido otra vez
@@ -21,6 +24,8 @@ public class LineGenerator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_isErasing) return;
+
         if (Input.GetMouseButtonDown(0))
         {
             StartLine();
@@ -35,32 +40,52 @@ public class LineGenerator : MonoBehaviour
         {
             EraseLines();
         }
+
+        _combinedStroke = FlattenStrokes(_currentLines);
     }
 
     private void StartLine()
     {
+        if (_isDrawing) return;
+
+        _isDrawing = true;
+
+        if(_activeLines >= _maxActiveLines)
+        {
+            line = null;
+            return;
+        }
+
         if (_drawing != null)
         {
             StopCoroutine(_drawing);
         }
 
-        if (_activeLines < _maxActiveLines)
-            _drawing = StartCoroutine(DrawLine());
+        _drawing = StartCoroutine(DrawLine());
+
     }
 
     private void FinishLine()
     {
-        if (totalDistance < _minLineDistance)
+        if(!_isDrawing) return;
+
+        _isDrawing = false;
+
+        if(line != null)
         {
-            Debug.Log(totalDistance);
-            _currentLines.Remove(line);
-            Destroy(line);
-            _activeLines--;
+            if (totalDistance < _minLineDistance)
+            {
+                //Debug.Log(totalDistance);
+                _currentLines.Remove(line);
+                Destroy(line);
+                _activeLines--;
+            }
+            else
+            {
+                _currentLines.Add(line);
+            }
         }
-        else
-        {
-            _currentLines.Add(line);
-        }
+        
         
         StopCoroutine(_drawing);
 
@@ -68,6 +93,10 @@ public class LineGenerator : MonoBehaviour
 
     private void EraseLines()
     {
+        if(_isErasing) return;
+
+        _isErasing = true;
+
         List<GameObject> linesToErase = new List<GameObject>(_currentLines);
 
         foreach (GameObject line in linesToErase)
@@ -77,6 +106,8 @@ public class LineGenerator : MonoBehaviour
 
         _currentLines.Clear();
         _activeLines = 0;
+
+        _isErasing = false;
     }
 
     IEnumerator DrawLine()
@@ -121,4 +152,77 @@ public class LineGenerator : MonoBehaviour
         }
 
     }
+
+    private List<Vector2> NormalizeStrokes(List<Vector2> strokes)
+    {
+        if (strokes == null || strokes.Count == 0)
+            return new List<Vector2>();
+
+        // Calculate bounding box
+        float minX = float.MaxValue, minY = float.MaxValue;
+        float maxX = float.MinValue, maxY = float.MinValue;
+
+        foreach (var point in strokes)
+        {
+            minX = Mathf.Min(minX, point.x);
+            minY = Mathf.Min(minY, point.y);
+            maxX = Mathf.Max(maxX, point.x);
+            maxY = Mathf.Max(maxY, point.y);
+        }
+
+        // Calculate center and scale
+        Vector2 center = new Vector2((minX + maxX) / 2, (minY + maxY) / 2);
+        float scale = Mathf.Max(maxX - minX, maxY - minY);
+
+        // Normalize points
+        List<Vector2> normalizedPoints = new List<Vector2>();
+        foreach (var point in strokes)
+        {
+            Vector2 normalizedPoint = (point - center) / scale;
+            normalizedPoints.Add(normalizedPoint);
+        }
+
+        return normalizedPoints;
+    }
+
+    private List<Vector2> FlattenStrokes(List<GameObject> strokes)
+    {
+        List<Vector2> flattened = new List<Vector2>();
+        foreach (var stroke in strokes)
+        {
+            LineRenderer lr = stroke.GetComponent<LineRenderer>();
+            for (int i = 0; i < lr.positionCount; i++)
+            {
+                Vector3 point = lr.GetPosition(i);
+                flattened.Add(new Vector2(point.x, point.y));
+            }
+        }
+        return flattened;
+    }
+
+    //string RecognizeGesture(List<GameObject> inputStrokes)
+    //{
+    //    // Normalize input
+    //    NormalizeStrokes(inputStrokes);
+
+    //    // Flatten input strokes
+    //    List<Vector2> inputPoints = FlattenStrokes(inputStrokes);
+
+    //    string bestMatch = "Unrecognized";
+    //    float bestDistance = float.MaxValue;
+
+    //    foreach (var template in gestureTemplates)
+    //    {
+    //        List<Vector2> templatePoints = FlattenStrokes(template.Value); // Flatten the template strokes
+    //        float distance = CalculateGestureDistance(inputPoints, templatePoints);
+
+    //        if (distance < bestDistance)
+    //        {
+    //            bestDistance = distance;
+    //            bestMatch = template.Key;
+    //        }
+    //    }
+
+    //    return bestMatch;
+    //}
 }
