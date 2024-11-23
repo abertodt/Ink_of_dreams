@@ -200,29 +200,68 @@ public class LineGenerator : MonoBehaviour
         return flattened;
     }
 
-    //string RecognizeGesture(List<GameObject> inputStrokes)
-    //{
-    //    // Normalize input
-    //    NormalizeStrokes(inputStrokes);
+    public List<Vector2> Resample(List<Vector2> points, int numPoints)
+    {
+        if (points == null || points.Count < 2 || numPoints < 2)
+        {
+            Debug.LogError("Invalid input: Gesture must have at least two points, and numPoints must be at least 2.");
+            return points;
+        }
 
-    //    // Flatten input strokes
-    //    List<Vector2> inputPoints = FlattenStrokes(inputStrokes);
+        // Calculate the total path length of the gesture
+        float totalLength = 0f;
+        List<float> distances = new List<float>
+        {
+            0f // Distance from the first point to itself is 0
+        };
 
-    //    string bestMatch = "Unrecognized";
-    //    float bestDistance = float.MaxValue;
+        for (int i = 1; i < points.Count; i++)
+        {
+            float dist = Vector2.Distance(points[i - 1], points[i]);
+            totalLength += dist;
+            distances.Add(totalLength); // Cumulative distance
+        }
 
-    //    foreach (var template in gestureTemplates)
-    //    {
-    //        List<Vector2> templatePoints = FlattenStrokes(template.Value); // Flatten the template strokes
-    //        float distance = CalculateGestureDistance(inputPoints, templatePoints);
+        // Calculate the interval length between resampled points
+        float interval = totalLength / (numPoints - 1);
 
-    //        if (distance < bestDistance)
-    //        {
-    //            bestDistance = distance;
-    //            bestMatch = template.Key;
-    //        }
-    //    }
+        // Create the resampled points
+        List<Vector2> resampledPoints = new List<Vector2>
+        {
+            points[0] 
+        };
 
-    //    return bestMatch;
-    //}
+        float currentDistance = interval;
+        int currentIndex = 1;
+
+        while (resampledPoints.Count < numPoints)
+        {
+            // Walk along the original gesture until reaching the next interval
+            while (currentIndex < points.Count && distances[currentIndex] < currentDistance)
+            {
+                currentIndex++;
+            }
+
+            if (currentIndex >= points.Count)
+                break;
+
+            // Linearly interpolate to find the exact position of the next resampled point
+            Vector2 p1 = points[currentIndex - 1];
+            Vector2 p2 = points[currentIndex];
+            float t = (currentDistance - distances[currentIndex - 1]) / (distances[currentIndex] - distances[currentIndex - 1]);
+
+            Vector2 interpolatedPoint = Vector2.Lerp(p1, p2, t);
+            resampledPoints.Add(interpolatedPoint);
+
+            currentDistance += interval;
+        }
+
+        // Ensure the last point is included
+        if (resampledPoints.Count < numPoints)
+        {
+            resampledPoints.Add(points[points.Count - 1]);
+        }
+
+        return resampledPoints;
+    }
 }
