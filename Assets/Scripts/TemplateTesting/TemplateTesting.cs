@@ -43,4 +43,20 @@ public class TemplateTesting : MonoBehaviour
 
         _gestureTemplates.Templates.Add(data);
     }
+
+    public void CompareTemplate()
+    {
+
+        List<GameObject> lines = _lineGenerator._currentLines;
+
+        List<Vector2> points = _gestureUtils.FlattenStrokes(lines);
+
+        points = _gestureUtils.ResampleStroke(points);
+
+        points = _gestureUtils.NormalizeStroke(points);
+
+        TemplateData closest = _gestureUtils.FindClosestTemplate(points, _gestureTemplates.Templates);
+
+        Debug.Log(closest.Name);
+    }
 }

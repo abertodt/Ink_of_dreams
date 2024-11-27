@@ -117,4 +117,71 @@ public class GestureUtils
 
         return resampledPoints;
     }
+
+    public struct Template
+    {
+        public List<Vector2> Sequence;
+        public float Distance;
+
+        public Template(List<Vector2> sequence, float distance)
+        {
+            Sequence = sequence;
+            Distance = distance;
+        }
+    }
+
+    // Calculate DTW distance between two sequences
+    public static float CalculateDTW(List<Vector2> sequenceA, List<Vector2> sequenceB)
+    {
+        int n = sequenceA.Count;
+        int m = sequenceB.Count;
+
+        // Create a 2D array for DTW distances
+        float[,] dtw = new float[n + 1, m + 1];
+
+        // Initialize with infinity
+        for (int i = 0; i <= n; i++)
+        {
+            for (int j = 0; j <= m; j++)
+            {
+                dtw[i, j] = float.PositiveInfinity;
+            }
+        }
+
+        // Set the starting point
+        dtw[0, 0] = 0;
+
+        // Compute DTW
+        for (int i = 1; i <= n; i++)
+        {
+            for (int j = 1; j <= m; j++)
+            {
+                float cost = Vector2.Distance(sequenceA[i - 1], sequenceB[j - 1]);
+                dtw[i, j] = cost + Mathf.Min(dtw[i - 1, j],         // Insertion
+                                             dtw[i, j - 1],         // Deletion
+                                             dtw[i - 1, j - 1]);    // Match
+            }
+        }
+
+        return dtw[n, m];
+    }
+
+    // Find the template with the closest resemblance
+    public TemplateData FindClosestTemplate(List<Vector2> input, List<TemplateData> templates)
+    {
+        TemplateData closestTemplate = new TemplateData("", null);
+        float closestDistance = float.PositiveInfinity;
+
+        foreach (var template in templates)
+        {
+            float distance = CalculateDTW(input, template.Positions);
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestTemplate = template;
+            }
+        }
+
+        return closestTemplate;
+    }
 }
