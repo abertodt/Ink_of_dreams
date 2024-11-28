@@ -35,9 +35,9 @@ public class TemplateTesting : MonoBehaviour
 
         List<Vector2> points = _gestureUtils.FlattenStrokes(lines);
 
-        points = _gestureUtils.ResampleStroke(points);
-
         points = _gestureUtils.NormalizeStroke(points);
+
+        points = _gestureUtils.ResampleStroke(points);
 
         TemplateData data = new TemplateData(_inputField.text, points);
 
@@ -50,10 +50,6 @@ public class TemplateTesting : MonoBehaviour
         List<GameObject> lines = _lineGenerator._currentLines;
 
         List<Vector2> points = _gestureUtils.FlattenStrokes(lines);
-
-        points = _gestureUtils.ResampleStroke(points);
-
-        points = _gestureUtils.NormalizeStroke(points);
 
         TemplateData closest = _gestureUtils.FindClosestTemplate(points, _gestureTemplates.Templates);
 
