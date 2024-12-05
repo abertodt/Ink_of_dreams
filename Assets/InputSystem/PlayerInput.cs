@@ -46,15 +46,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""DrawMode"",
-                    ""type"": ""Button"",
-                    ""id"": ""ca051805-546c-43b8-b4fe-f2f1a9e94011"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Draw"",
                     ""type"": ""Button"",
                     ""id"": ""a29478dd-69e1-4c23-96fe-1cddc1256e4b"",
@@ -161,10 +152,36 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""CameraControlls"",
+            ""id"": ""28723964-aaca-4140-a88a-876df544bf70"",
+            ""actions"": [
+                {
+                    ""name"": ""DrawMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""5d784e19-30bf-4834-ac2e-5f0ac9f61b66"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""0ccb5a4b-2d62-4a42-9431-6800bd0f1ff4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""f3ebef83-5ef9-4968-8ae0-b487266c1367"",
+                    ""id"": ""98d08274-b1c9-438f-919d-a6a44778e709"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -172,6 +189,61 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""DrawMode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Mouse"",
+                    ""id"": ""e0893aae-014a-46d8-9876-c2931ee941dc"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""46eb8e49-5f8c-40eb-a127-a21b66f1c8f0"",
+                    ""path"": ""<Mouse>/position/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""8e3b151f-2023-4d29-8cd9-498820cad2a7"",
+                    ""path"": ""<Mouse>/position/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b8b79774-cd1a-4fde-a17d-23de79851164"",
+                    ""path"": ""<Mouse>/position/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""bc53bc35-58b9-47fb-a208-f211942793d0"",
+                    ""path"": ""<Mouse>/position/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -182,9 +254,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_CharacterControlls = asset.FindActionMap("CharacterControlls", throwIfNotFound: true);
         m_CharacterControlls_Move = m_CharacterControlls.FindAction("Move", throwIfNotFound: true);
         m_CharacterControlls_Run = m_CharacterControlls.FindAction("Run", throwIfNotFound: true);
-        m_CharacterControlls_DrawMode = m_CharacterControlls.FindAction("DrawMode", throwIfNotFound: true);
         m_CharacterControlls_Draw = m_CharacterControlls.FindAction("Draw", throwIfNotFound: true);
         m_CharacterControlls_Erase = m_CharacterControlls.FindAction("Erase", throwIfNotFound: true);
+        // CameraControlls
+        m_CameraControlls = asset.FindActionMap("CameraControlls", throwIfNotFound: true);
+        m_CameraControlls_DrawMode = m_CameraControlls.FindAction("DrawMode", throwIfNotFound: true);
+        m_CameraControlls_Rotate = m_CameraControlls.FindAction("Rotate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -248,7 +323,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<ICharacterControllsActions> m_CharacterControllsActionsCallbackInterfaces = new List<ICharacterControllsActions>();
     private readonly InputAction m_CharacterControlls_Move;
     private readonly InputAction m_CharacterControlls_Run;
-    private readonly InputAction m_CharacterControlls_DrawMode;
     private readonly InputAction m_CharacterControlls_Draw;
     private readonly InputAction m_CharacterControlls_Erase;
     public struct CharacterControllsActions
@@ -257,7 +331,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public CharacterControllsActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_CharacterControlls_Move;
         public InputAction @Run => m_Wrapper.m_CharacterControlls_Run;
-        public InputAction @DrawMode => m_Wrapper.m_CharacterControlls_DrawMode;
         public InputAction @Draw => m_Wrapper.m_CharacterControlls_Draw;
         public InputAction @Erase => m_Wrapper.m_CharacterControlls_Erase;
         public InputActionMap Get() { return m_Wrapper.m_CharacterControlls; }
@@ -275,9 +348,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Run.started += instance.OnRun;
             @Run.performed += instance.OnRun;
             @Run.canceled += instance.OnRun;
-            @DrawMode.started += instance.OnDrawMode;
-            @DrawMode.performed += instance.OnDrawMode;
-            @DrawMode.canceled += instance.OnDrawMode;
             @Draw.started += instance.OnDraw;
             @Draw.performed += instance.OnDraw;
             @Draw.canceled += instance.OnDraw;
@@ -294,9 +364,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Run.started -= instance.OnRun;
             @Run.performed -= instance.OnRun;
             @Run.canceled -= instance.OnRun;
-            @DrawMode.started -= instance.OnDrawMode;
-            @DrawMode.performed -= instance.OnDrawMode;
-            @DrawMode.canceled -= instance.OnDrawMode;
             @Draw.started -= instance.OnDraw;
             @Draw.performed -= instance.OnDraw;
             @Draw.canceled -= instance.OnDraw;
@@ -320,12 +387,70 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         }
     }
     public CharacterControllsActions @CharacterControlls => new CharacterControllsActions(this);
+
+    // CameraControlls
+    private readonly InputActionMap m_CameraControlls;
+    private List<ICameraControllsActions> m_CameraControllsActionsCallbackInterfaces = new List<ICameraControllsActions>();
+    private readonly InputAction m_CameraControlls_DrawMode;
+    private readonly InputAction m_CameraControlls_Rotate;
+    public struct CameraControllsActions
+    {
+        private @PlayerInput m_Wrapper;
+        public CameraControllsActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @DrawMode => m_Wrapper.m_CameraControlls_DrawMode;
+        public InputAction @Rotate => m_Wrapper.m_CameraControlls_Rotate;
+        public InputActionMap Get() { return m_Wrapper.m_CameraControlls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(CameraControllsActions set) { return set.Get(); }
+        public void AddCallbacks(ICameraControllsActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CameraControllsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CameraControllsActionsCallbackInterfaces.Add(instance);
+            @DrawMode.started += instance.OnDrawMode;
+            @DrawMode.performed += instance.OnDrawMode;
+            @DrawMode.canceled += instance.OnDrawMode;
+            @Rotate.started += instance.OnRotate;
+            @Rotate.performed += instance.OnRotate;
+            @Rotate.canceled += instance.OnRotate;
+        }
+
+        private void UnregisterCallbacks(ICameraControllsActions instance)
+        {
+            @DrawMode.started -= instance.OnDrawMode;
+            @DrawMode.performed -= instance.OnDrawMode;
+            @DrawMode.canceled -= instance.OnDrawMode;
+            @Rotate.started -= instance.OnRotate;
+            @Rotate.performed -= instance.OnRotate;
+            @Rotate.canceled -= instance.OnRotate;
+        }
+
+        public void RemoveCallbacks(ICameraControllsActions instance)
+        {
+            if (m_Wrapper.m_CameraControllsActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(ICameraControllsActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CameraControllsActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CameraControllsActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public CameraControllsActions @CameraControlls => new CameraControllsActions(this);
     public interface ICharacterControllsActions
     {
         void OnMove(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
-        void OnDrawMode(InputAction.CallbackContext context);
         void OnDraw(InputAction.CallbackContext context);
         void OnErase(InputAction.CallbackContext context);
+    }
+    public interface ICameraControllsActions
+    {
+        void OnDrawMode(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
     }
 }

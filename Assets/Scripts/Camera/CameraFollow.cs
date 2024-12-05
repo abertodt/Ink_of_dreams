@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
 
     private void Start()
     {
-        transform.localPosition = transform.parent.position + new Vector3(0, _height, -_distanceToPlayer);
+        //transform.localPosition = transform.parent.position + new Vector3(0, _height, -_distanceToPlayer); 
         Camera.main.fieldOfView = _FOV;
     }
 

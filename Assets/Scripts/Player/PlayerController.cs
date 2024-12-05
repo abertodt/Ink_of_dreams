@@ -68,12 +68,12 @@ public class PlayerController : MonoBehaviour
         positionToLookAt.y = 0;
         positionToLookAt.z = _currentMovement.z;
 
-        Quaternion currentRotation = transform.rotation;
 
         if(_isMovementPressed) 
         {
             Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, _rotationSpeed * Time.deltaTime);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
         }
         
 

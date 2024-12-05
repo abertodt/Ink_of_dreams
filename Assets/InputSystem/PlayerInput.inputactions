@@ -24,15 +24,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DrawMode",
-                    "type": "Button",
-                    "id": "ca051805-546c-43b8-b4fe-f2f1a9e94011",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Draw",
                     "type": "Button",
                     "id": "a29478dd-69e1-4c23-96fe-1cddc1256e4b",
@@ -139,10 +130,36 @@
                     "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "CameraControlls",
+            "id": "28723964-aaca-4140-a88a-876df544bf70",
+            "actions": [
+                {
+                    "name": "DrawMode",
+                    "type": "Button",
+                    "id": "5d784e19-30bf-4834-ac2e-5f0ac9f61b66",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
+                    "name": "Rotate",
+                    "type": "Value",
+                    "id": "0ccb5a4b-2d62-4a42-9431-6800bd0f1ff4",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "f3ebef83-5ef9-4968-8ae0-b487266c1367",
+                    "id": "98d08274-b1c9-438f-919d-a6a44778e709",
                     "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
@@ -150,6 +167,61 @@
                     "action": "DrawMode",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Mouse",
+                    "id": "e0893aae-014a-46d8-9876-c2931ee941dc",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "46eb8e49-5f8c-40eb-a127-a21b66f1c8f0",
+                    "path": "<Mouse>/position/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "8e3b151f-2023-4d29-8cd9-498820cad2a7",
+                    "path": "<Mouse>/position/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "b8b79774-cd1a-4fde-a17d-23de79851164",
+                    "path": "<Mouse>/position/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "bc53bc35-58b9-47fb-a208-f211942793d0",
+                    "path": "<Mouse>/position/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
