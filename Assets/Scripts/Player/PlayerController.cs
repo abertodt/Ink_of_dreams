@@ -16,7 +16,8 @@ public class PlayerController : PausableMonoBehaviour
     private Vector3 _currentMovement;
 
 
-    int _isRunningHash;
+    private int _isRunningHash;
+
 
     private void Awake()
     {

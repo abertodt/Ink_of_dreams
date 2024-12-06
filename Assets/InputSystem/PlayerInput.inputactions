@@ -2,7 +2,7 @@
     "name": "PlayerInput",
     "maps": [
         {
-            "name": "CharacterControlls",
+            "name": "Gameplay",
             "id": "db88fe9f-082b-4a9f-8b0f-d5c46dcd0aed",
             "actions": [
                 {
@@ -24,18 +24,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Draw",
+                    "name": "ToggleDrawMode",
                     "type": "Button",
-                    "id": "a29478dd-69e1-4c23-96fe-1cddc1256e4b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Erase",
-                    "type": "Button",
-                    "id": "41ebfc7b-c1fe-4adc-af3d-0276a7d23756",
+                    "id": "ab1278b5-ae0d-4537-9084-10298a16539b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -100,7 +91,55 @@
                 },
                 {
                     "name": "",
-                    "id": "4ad6b2e9-e307-40d6-9822-057892b68365",
+                    "id": "90af16c9-cbba-475b-8db0-9b7b764bcc5a",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f66cf408-c64a-486e-a91e-eb55bca2138b",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleDrawMode",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DrawingMode",
+            "id": "28723964-aaca-4140-a88a-876df544bf70",
+            "actions": [
+                {
+                    "name": "Draw",
+                    "type": "Button",
+                    "id": "aa9b5cb7-d29c-4d36-a076-99a6af572416",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Erase",
+                    "type": "Button",
+                    "id": "c74c3c96-834d-4404-b679-140b3f65e01b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0cda9720-72c1-44c6-a247-4686075f07a7",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
@@ -111,7 +150,7 @@
                 },
                 {
                     "name": "",
-                    "id": "08c720c2-e4fd-4458-a250-70a2bbf166c0",
+                    "id": "1970a15e-999e-4333-8761-5f95e34f2d19",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
@@ -119,109 +158,129 @@
                     "action": "Erase",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "90af16c9-cbba-475b-8db0-9b7b764bcc5a",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Run",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "CameraControlls",
-            "id": "28723964-aaca-4140-a88a-876df544bf70",
+            "name": "UI",
+            "id": "47886124-a877-4b6b-a736-7d8e558ab689",
             "actions": [
                 {
-                    "name": "DrawMode",
+                    "name": "Navigate",
+                    "type": "Value",
+                    "id": "73b9e161-d49c-4fa4-958b-8177b31951fb",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Select",
                     "type": "Button",
-                    "id": "5d784e19-30bf-4834-ac2e-5f0ac9f61b66",
+                    "id": "33b3f466-35f3-43dd-8596-36f4c63a43bb",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Rotate",
-                    "type": "Value",
-                    "id": "0ccb5a4b-2d62-4a42-9431-6800bd0f1ff4",
-                    "expectedControlType": "Vector2",
+                    "name": "Back",
+                    "type": "Button",
+                    "id": "a8a33d1c-c663-4b4f-a896-964679d76062",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "98d08274-b1c9-438f-919d-a6a44778e709",
-                    "path": "<Keyboard>/q",
+                    "id": "d833ddef-dc08-480b-a3f7-775ae9c8cefc",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "DrawMode",
+                    "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "Mouse",
-                    "id": "e0893aae-014a-46d8-9876-c2931ee941dc",
+                    "name": "",
+                    "id": "8635ff1c-6fce-45e4-83aa-60f914f9b8d9",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "da8498d4-84eb-4542-88fe-8dac8b71593a",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rotate",
+                    "action": "Navigate",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "up",
-                    "id": "46eb8e49-5f8c-40eb-a127-a21b66f1c8f0",
-                    "path": "<Mouse>/position/y",
+                    "id": "32787a3f-24bb-4132-bc80-b7f5c9e6cf1c",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rotate",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "down",
-                    "id": "8e3b151f-2023-4d29-8cd9-498820cad2a7",
-                    "path": "<Mouse>/position/y",
+                    "id": "1c7017bc-a89f-4e43-aa47-0868ae4875d9",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rotate",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "left",
-                    "id": "b8b79774-cd1a-4fde-a17d-23de79851164",
-                    "path": "<Mouse>/position/x",
+                    "id": "7234c90a-6eb1-438d-897b-ca35093149f2",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rotate",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "right",
-                    "id": "bc53bc35-58b9-47fb-a208-f211942793d0",
-                    "path": "<Mouse>/position/x",
+                    "id": "d206f5ca-743f-4fba-9b23-4e48bc8bd95b",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Rotate",
+                    "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "19a70f66-c679-4e35-b2b2-e201319fe6c8",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Back",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

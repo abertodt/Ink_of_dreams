@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,15 +11,12 @@ public class InputManager : MonoBehaviour
     private PlayerInput _playerInput;
 
     public bool IsMoving { get; private set; }
-
     public Vector2 MovementInput { get; private set; }
-
     public bool IsRunning { get; private set; }
     public bool IsAttacking { get; private set; }
-
+    public bool IsDrawModeInputPressed { get; private set; }
     private void Awake()
     {
-        // Singleton pattern
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -28,43 +26,53 @@ public class InputManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Initialize Input Master
         _playerInput = new PlayerInput();
     }
 
     private void OnEnable()
     {
-        // Enable the input actions
         _playerInput.Enable();
 
         #region MovementInput
 
-        _playerInput.CharacterControlls.Move.started += OnMovementInput;
-        _playerInput.CharacterControlls.Move.canceled += OnMovementInput;
-        _playerInput.CharacterControlls.Move.performed += OnMovementInput;
+        _playerInput.Gameplay.Move.started += OnMovementInput;
+        _playerInput.Gameplay.Move.canceled += OnMovementInput;
+        _playerInput.Gameplay.Move.performed += OnMovementInput;
 
         #endregion MovementInput
 
         #region RunInput
 
-        _playerInput.CharacterControlls.Run.started += OnRunInput;
-        _playerInput.CharacterControlls.Run.canceled += OnRunInput;
-        _playerInput.CharacterControlls.Run.performed += OnRunInput;
+        _playerInput.Gameplay.Run.started += OnRunInput;
+        _playerInput.Gameplay.Run.canceled += OnRunInput;
+        _playerInput.Gameplay.Run.performed += OnRunInput;
 
         #endregion RunInput
+
+        _playerInput.Gameplay.ToggleDrawMode.performed += OnToggleDrawMode;
+    }
+
+    private void OnToggleDrawMode(InputAction.CallbackContext context)
+    {
+        if(context.performed) 
+        {
+            GameManager.Instance.ToggleDrawMode();
+        }
     }
 
     private void OnDisable()
     {
         _playerInput.Disable();
 
-        _playerInput.CharacterControlls.Move.started -= OnMovementInput;
-        _playerInput.CharacterControlls.Move.canceled -= OnMovementInput;
-        _playerInput.CharacterControlls.Move.performed -= OnMovementInput;
+        _playerInput.Gameplay.Move.started -= OnMovementInput;
+        _playerInput.Gameplay.Move.canceled -= OnMovementInput;
+        _playerInput.Gameplay.Move.performed -= OnMovementInput;
 
-        _playerInput.CharacterControlls.Run.started -= OnRunInput;
-        _playerInput.CharacterControlls.Run.canceled -= OnRunInput;
-        _playerInput.CharacterControlls.Run.performed -= OnRunInput;
+        _playerInput.Gameplay.Run.started -= OnRunInput;
+        _playerInput.Gameplay.Run.canceled -= OnRunInput;
+        _playerInput.Gameplay.Run.performed -= OnRunInput;
+
+        _playerInput.Gameplay.ToggleDrawMode.started -= OnToggleDrawMode;
     }
 
     private void OnMovementInput(InputAction.CallbackContext context)

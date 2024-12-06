@@ -1,66 +1,92 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
-    public static GameManager Instance => instance;
+    private static GameManager _instance;
+    public static GameManager Instance => _instance;
 
-    private List<PausableMonoBehaviour> pausableObjects = new List<PausableMonoBehaviour>();
+    private List<PausableMonoBehaviour> _pausableObjects = new List<PausableMonoBehaviour>();
 
-    private bool isGamePaused = false;
+    public GameState CurrentState { get; private set; } = GameState.Normal;
 
-    public bool IsGamePaused
-    {
-        get => isGamePaused;
-        set
-        {
-            isGamePaused = value;
-            NotifyPauseStateChange(isGamePaused);
-        }
-    }
+    public event Action<GameState> OnGameStateChanged;
 
     private void Awake()
     {
-        if (instance != null && instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
         }
-        instance = this;
+        _instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
-    // Register a pausable object
+    public void ChangeState(GameState newState)
+    {
+        if (CurrentState == newState) return;
+
+        CurrentState = newState;
+        OnGameStateChanged?.Invoke(newState);
+
+        NotifyPauseStateChange(newState == GameState.Paused || newState == GameState.Drawing);
+    }
+
     public void RegisterPausableObject(PausableMonoBehaviour obj)
     {
-        if (!pausableObjects.Contains(obj))
+        if (!_pausableObjects.Contains(obj))
         {
-            pausableObjects.Add(obj);
+            _pausableObjects.Add(obj);
+            obj.OnGameStateChanged(CurrentState);
         }
     }
 
-    // Unregister a pausable object
     public void UnregisterPausableObject(PausableMonoBehaviour obj)
     {
-        if (pausableObjects.Contains(obj))
+        if (_pausableObjects.Contains(obj))
         {
-            pausableObjects.Remove(obj);
+            _pausableObjects.Remove(obj);
         }
     }
 
-    // Notify all registered objects about the pause state change
-    private void NotifyPauseStateChange(bool paused)
+    private void NotifyPauseStateChange(bool isPaused)
     {
-        foreach (var obj in pausableObjects)
+        foreach (var obj in _pausableObjects)
         {
-            obj.IsPaused = paused;
+            obj.SetPausedState(isPaused);
         }
     }
 
-    // Example toggle pause function
     public void TogglePause()
     {
-        IsGamePaused = !IsGamePaused;
+        if (CurrentState == GameState.Paused)
+        {
+            ChangeState(GameState.Normal);
+        }
+        else
+        {
+            ChangeState(GameState.Paused);
+        }
     }
+
+    public void ToggleDrawMode()
+    { 
+        if (CurrentState == GameState.Normal)
+        {
+            ChangeState(GameState.Drawing);
+        }
+        else if(CurrentState == GameState.Drawing)
+        {
+            ChangeState(GameState.Normal);
+        }
+    }
+}
+
+public enum GameState
+{
+    Normal,
+    Paused,
+    Drawing
 }

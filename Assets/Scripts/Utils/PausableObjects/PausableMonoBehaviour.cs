@@ -2,29 +2,7 @@ using UnityEngine;
 
 public class PausableMonoBehaviour : MonoBehaviour
 {
-    private bool isPaused = false;
-
-    public bool IsPaused
-    {
-        get => isPaused;
-        set
-        {
-            isPaused = value;
-            OnPauseStateChanged(isPaused);
-        }
-    }
-    protected virtual void OnPauseStateChanged(bool paused) {}
-
-    protected virtual void Update()
-    {
-        if (isPaused)
-        {
-            return;
-        }
-
-        OnPausableUpdate();
-    }
-    protected virtual void OnPausableUpdate() { }
+    public bool IsPaused { get; private set; }
 
     protected virtual void OnEnable()
     {
@@ -41,4 +19,30 @@ public class PausableMonoBehaviour : MonoBehaviour
             GameManager.Instance.UnregisterPausableObject(this);
         }
     }
+
+    public virtual void OnGameStateChanged(GameState state)
+    {
+        IsPaused = (state == GameState.Paused || state == GameState.Drawing);
+        OnPauseStateChanged(IsPaused);
+    }
+
+    protected virtual void OnPauseStateChanged(bool isPaused) { }
+
+    public void SetPausedState(bool isPaused)
+    {
+        IsPaused = isPaused;
+        OnPauseStateChanged(IsPaused);
+    }
+
+    protected virtual void Update()
+    {
+        if (IsPaused)
+        {
+            return;
+        }
+
+        OnPausableUpdate();
+    }
+
+    protected virtual void OnPausableUpdate() { }
 }
