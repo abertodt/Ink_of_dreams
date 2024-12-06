@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : PausableMonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float _movementSpeed;
@@ -10,49 +10,29 @@ public class PlayerController : MonoBehaviour
 
 
     private CharacterController _characterController;
-    private PlayerInput _playerInput;
     private Animator _animator;
 
-    private Vector2 _currentMovementInput;
     private Vector3 _currentWalkingMovement;
-    private Vector3 _currentRunMovement;
     private Vector3 _currentMovement;
 
-    private bool _isMovementPressed;
-    private bool _isRunningPressed;
 
     int _isRunningHash;
 
     private void Awake()
     {
-        _playerInput = new PlayerInput();
         _characterController = GetComponent<CharacterController>();
         _animator = GetComponentInChildren<Animator>();
 
         _isRunningHash = Animator.StringToHash("isRunning");
-
-        _playerInput.CharacterControlls.Move.started += OnMovementInput;
-        _playerInput.CharacterControlls.Move.canceled += OnMovementInput;
-        _playerInput.CharacterControlls.Move.performed += OnMovementInput;
-
-        _playerInput.CharacterControlls.Run.started += OnRunInput;
-        _playerInput.CharacterControlls.Run.canceled += OnRunInput;
-        _playerInput.CharacterControlls.Run.performed += OnRunInput;
     }
 
-    private void OnMovementInput(InputAction.CallbackContext context)
+    private void Move()
     {
-        _currentMovementInput = context.ReadValue<Vector2>();
-        _currentWalkingMovement.x = _currentMovementInput.x;
-        _currentWalkingMovement.z = _currentMovementInput.y;
-        _currentRunMovement.x = _currentWalkingMovement.x * _runMultiplier;
-        _currentRunMovement.z = _currentWalkingMovement.z * _runMultiplier;
-        _isMovementPressed = _currentMovementInput.x != 0 || _currentMovementInput.y != 0;
-    }
+        _currentWalkingMovement = new Vector3(InputManager.Instance.MovementInput.x, 0f, InputManager.Instance.MovementInput.y);
 
-    private void OnRunInput(InputAction.CallbackContext context) 
-    {
-        _isRunningPressed = context.ReadValueAsButton();
+        _currentMovement = InputManager.Instance.IsRunning
+            ? _currentWalkingMovement * _runMultiplier
+            : _currentWalkingMovement;
     }
 
     private void HandleAnimations()
@@ -69,38 +49,19 @@ public class PlayerController : MonoBehaviour
         positionToLookAt.z = _currentMovement.z;
 
 
-        if(_isMovementPressed) 
+        if(InputManager.Instance.IsMoving && positionToLookAt != Vector3.zero) 
         {
             Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSpeed * Time.deltaTime);
         }
         
-
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnPausableUpdate()
     {
         HandleRotation();
-        if(_isRunningPressed) 
-        {
-            _currentMovement = _currentRunMovement;
-        }
-        else
-        {
-            _currentMovement = _currentWalkingMovement;
-        }
+        Move();
         _characterController.SimpleMove(_currentMovement * _movementSpeed);
-    }
-
-    private void OnEnable()
-    {
-        _playerInput.CharacterControlls.Enable();
-    }
-
-    private void OnDisable()
-    {
-        _playerInput.CharacterControlls.Disable();
     }
 }

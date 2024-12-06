@@ -27,12 +27,12 @@ public class CameraInputs : MonoBehaviour
         if(_isDrawModeActive) 
         {
             _drawModeVolume.weight = 1f;
-            Time.timeScale = 0f;
+            GameManager.Instance.TogglePause();
         }
         else
         {
             _drawModeVolume.weight = 0f;
-            Time.timeScale = 1f;
+            GameManager.Instance.TogglePause();
         }
     }
 
