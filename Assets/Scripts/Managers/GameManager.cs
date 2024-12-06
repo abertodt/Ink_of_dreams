@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var obj in _pausableObjects)
         {
+            Debug.Log($"NotifyPauseStateChange: isPaused={isPaused}, CurrentState={CurrentState}");
             obj.SetPausedState(isPaused);
         }
     }

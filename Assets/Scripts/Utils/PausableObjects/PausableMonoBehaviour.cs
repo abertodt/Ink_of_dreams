@@ -9,6 +9,7 @@ public class PausableMonoBehaviour : MonoBehaviour
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterPausableObject(this);
+            Debug.Log($"{name} registered with GameManager.");
         }
     }
 
