@@ -15,6 +15,7 @@ public class InputManager : MonoBehaviour
     public bool IsRunning { get; private set; }
     public bool IsAttacking { get; private set; }
     public bool IsDrawModeInputPressed { get; private set; }
+    public Vector2 CameraRotation { get; private set; }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -50,6 +51,14 @@ public class InputManager : MonoBehaviour
         #endregion RunInput
 
         _playerInput.Gameplay.ToggleDrawMode.performed += OnToggleDrawMode;
+
+        _playerInput.Gameplay.CameraRotation.started += OnCameraRotation;
+        _playerInput.Gameplay.CameraRotation.canceled += OnCameraRotation;
+    }
+
+    private void OnCameraRotation(InputAction.CallbackContext context)
+    {
+        CameraRotation = context.ReadValue<Vector2>();
     }
 
     private void OnToggleDrawMode(InputAction.CallbackContext context)
@@ -73,6 +82,9 @@ public class InputManager : MonoBehaviour
         _playerInput.Gameplay.Run.performed -= OnRunInput;
 
         _playerInput.Gameplay.ToggleDrawMode.started -= OnToggleDrawMode;
+
+        _playerInput.Gameplay.CameraRotation.started -= OnCameraRotation;
+        _playerInput.Gameplay.CameraRotation.canceled -= OnCameraRotation;
     }
 
     private void OnMovementInput(InputAction.CallbackContext context)

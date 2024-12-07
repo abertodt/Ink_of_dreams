@@ -53,6 +53,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CameraRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""3b71b456-5c7d-41b0-82bc-a4cae21e176e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -125,11 +134,22 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f66cf408-c64a-486e-a91e-eb55bca2138b"",
-                    ""path"": ""<Keyboard>/k"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ToggleDrawMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dbf94871-b091-41d5-9ba1-a3434778e4dc"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CameraRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -314,6 +334,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Gameplay_Move = m_Gameplay.FindAction("Move", throwIfNotFound: true);
         m_Gameplay_Run = m_Gameplay.FindAction("Run", throwIfNotFound: true);
         m_Gameplay_ToggleDrawMode = m_Gameplay.FindAction("ToggleDrawMode", throwIfNotFound: true);
+        m_Gameplay_CameraRotation = m_Gameplay.FindAction("CameraRotation", throwIfNotFound: true);
         // DrawingMode
         m_DrawingMode = asset.FindActionMap("DrawingMode", throwIfNotFound: true);
         m_DrawingMode_Draw = m_DrawingMode.FindAction("Draw", throwIfNotFound: true);
@@ -387,6 +408,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Move;
     private readonly InputAction m_Gameplay_Run;
     private readonly InputAction m_Gameplay_ToggleDrawMode;
+    private readonly InputAction m_Gameplay_CameraRotation;
     public struct GameplayActions
     {
         private @PlayerInput m_Wrapper;
@@ -394,6 +416,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Gameplay_Move;
         public InputAction @Run => m_Wrapper.m_Gameplay_Run;
         public InputAction @ToggleDrawMode => m_Wrapper.m_Gameplay_ToggleDrawMode;
+        public InputAction @CameraRotation => m_Wrapper.m_Gameplay_CameraRotation;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -412,6 +435,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ToggleDrawMode.started += instance.OnToggleDrawMode;
             @ToggleDrawMode.performed += instance.OnToggleDrawMode;
             @ToggleDrawMode.canceled += instance.OnToggleDrawMode;
+            @CameraRotation.started += instance.OnCameraRotation;
+            @CameraRotation.performed += instance.OnCameraRotation;
+            @CameraRotation.canceled += instance.OnCameraRotation;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -425,6 +451,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ToggleDrawMode.started -= instance.OnToggleDrawMode;
             @ToggleDrawMode.performed -= instance.OnToggleDrawMode;
             @ToggleDrawMode.canceled -= instance.OnToggleDrawMode;
+            @CameraRotation.started -= instance.OnCameraRotation;
+            @CameraRotation.performed -= instance.OnCameraRotation;
+            @CameraRotation.canceled -= instance.OnCameraRotation;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -563,6 +592,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
         void OnToggleDrawMode(InputAction.CallbackContext context);
+        void OnCameraRotation(InputAction.CallbackContext context);
     }
     public interface IDrawingModeActions
     {
