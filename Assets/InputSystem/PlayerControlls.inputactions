@@ -1,5 +1,5 @@
 {
-    "name": "PlayerInput",
+    "name": "PlayerControlls",
     "maps": [
         {
             "name": "Gameplay",
@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "PauseGame",
+                    "type": "Button",
+                    "id": "0ec6466a-c94a-41f7-aa3d-452b56ea1cac",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -130,6 +139,17 @@
                     "action": "CameraRotation",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b799298f-d089-487b-ac68-298c5e342803",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -150,6 +170,15 @@
                     "name": "Erase",
                     "type": "Button",
                     "id": "c74c3c96-834d-4404-b679-140b3f65e01b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Return",
+                    "type": "Button",
+                    "id": "90c8af19-0b1b-458d-9736-70f8c7f51122",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -176,6 +205,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Erase",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a501296d-0383-4edf-ac69-cce932c92581",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Return",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

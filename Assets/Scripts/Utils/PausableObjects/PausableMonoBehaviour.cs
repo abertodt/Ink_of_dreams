@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PausableMonoBehaviour : MonoBehaviour
@@ -6,19 +7,12 @@ public class PausableMonoBehaviour : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RegisterPausableObject(this);
-            Debug.Log($"{name} registered with GameManager.");
-        }
+        GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
     }
 
     protected virtual void OnDisable()
     {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.UnregisterPausableObject(this);
-        }
+        GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
     }
 
     public virtual void OnGameStateChanged(GameState state)
@@ -29,12 +23,6 @@ public class PausableMonoBehaviour : MonoBehaviour
 
     protected virtual void OnPauseStateChanged(bool isPaused) { }
 
-    public void SetPausedState(bool isPaused)
-    {
-        IsPaused = isPaused;
-        OnPauseStateChanged(IsPaused);
-    }
-
     protected virtual void Update()
     {
         if (IsPaused)
@@ -44,6 +32,17 @@ public class PausableMonoBehaviour : MonoBehaviour
 
         OnPausableUpdate();
     }
+    protected virtual void LateUpdate()
+    {
+        if (IsPaused)
+        {
+            return;
+        }
+
+        OnPausableLateUpdate();
+    }
+
+    protected virtual void OnPausableLateUpdate() {}
 
     protected virtual void OnPausableUpdate() { }
 }

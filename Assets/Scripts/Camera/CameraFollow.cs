@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+using UnityEngine.Rendering.PostProcessing;
 
-public class CameraFollow : MonoBehaviour
+public class CameraFollow : PausableMonoBehaviour
 {
     [Header("Camera Settings")]
     [SerializeField] private Transform _camera;
@@ -16,6 +13,7 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _minPitchRotation;
     [SerializeField] private float _maxPitchRotation;
+    [SerializeField] private PostProcessVolume _drawModeVolume;
 
     private float _yaw = 0f;
     private float _pitch = 0f;
@@ -32,7 +30,7 @@ public class CameraFollow : MonoBehaviour
         transform.position = _target.position - _target.forward * _distanceToTarget + Vector3.up * _followHeight;
     }
 
-    private void LateUpdate()
+    protected override void OnPausableLateUpdate()
     {
         Vector3 desiredPosition = _target.position - _target.forward * _distanceToTarget + Vector3.up * _followHeight;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, _followSpeed * Time.deltaTime);
@@ -50,5 +48,17 @@ public class CameraFollow : MonoBehaviour
 
         Quaternion pitchRotation = Quaternion.Euler(_pitch, 0f, 0f);
         _camera.localRotation = lookAtRotation * pitchRotation;
+    }
+
+    public void ToggleDrawModeVolume()
+    {
+        if(_drawModeVolume.weight <= 0)
+        {
+            _drawModeVolume.weight = 1;
+        }
+        else
+        {
+            _drawModeVolume.weight = 0;
+        }
     }
 }

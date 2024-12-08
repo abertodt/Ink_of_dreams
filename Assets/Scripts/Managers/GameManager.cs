@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance => _instance;
 
-    private List<PausableMonoBehaviour> _pausableObjects = new List<PausableMonoBehaviour>();
-
     public GameState CurrentState { get; private set; } = GameState.Normal;
 
     public event Action<GameState> OnGameStateChanged;
@@ -30,35 +28,8 @@ public class GameManager : MonoBehaviour
 
         CurrentState = newState;
         OnGameStateChanged?.Invoke(newState);
-
-        NotifyPauseStateChange(newState == GameState.Paused || newState == GameState.Drawing);
     }
-
-    public void RegisterPausableObject(PausableMonoBehaviour obj)
-    {
-        if (!_pausableObjects.Contains(obj))
-        {
-            _pausableObjects.Add(obj);
-            obj.OnGameStateChanged(CurrentState);
-        }
-    }
-
-    public void UnregisterPausableObject(PausableMonoBehaviour obj)
-    {
-        if (_pausableObjects.Contains(obj))
-        {
-            _pausableObjects.Remove(obj);
-        }
-    }
-
-    private void NotifyPauseStateChange(bool isPaused)
-    {
-        foreach (var obj in _pausableObjects)
-        {
-            Debug.Log($"NotifyPauseStateChange: isPaused={isPaused}, CurrentState={CurrentState}");
-            obj.SetPausedState(isPaused);
-        }
-    }
+    
 
     public void TogglePause()
     {

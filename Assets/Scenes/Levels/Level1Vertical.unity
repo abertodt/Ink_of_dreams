@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8182c688c7673fd4a8921db160ed04b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _DrawModePressed: {fileID: 11400000, guid: 833f869a88206ef448bf6dbc6728de89, type: 2}
 --- !u!4 &227796478
 Transform:
   m_ObjectHideFlags: 0
@@ -1137,6 +1138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2038521841}
   - component: {fileID: 2038521840}
+  - component: {fileID: 2038521842}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -1165,6 +1167,7 @@ MonoBehaviour:
   _rotationSpeed: 0.2
   _minPitchRotation: -45
   _maxPitchRotation: 45
+  _drawModeVolume: {fileID: 1348585745}
 --- !u!4 &2038521841
 Transform:
   m_ObjectHideFlags: 0
@@ -1181,3 +1184,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2038521842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2038521839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3291570c86830d468187be669f28730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: 833f869a88206ef448bf6dbc6728de89, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2038521840}
+        m_TargetAssemblyTypeName: CameraFollow, Assembly-CSharp
+        m_MethodName: ToggleDrawModeVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

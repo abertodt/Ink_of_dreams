@@ -64,5 +64,6 @@ public class PlayerController : PausableMonoBehaviour
         HandleRotation();
         Move();
         _characterController.SimpleMove(_currentMovement * _movementSpeed);
+
     }
 }
