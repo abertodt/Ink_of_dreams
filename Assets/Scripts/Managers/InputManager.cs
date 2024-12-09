@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class InputManager : MonoBehaviour
 {
@@ -21,16 +22,21 @@ public class InputManager : MonoBehaviour
     public Vector2 CameraRotation { get; private set; }
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance == null)
         {
-            Destroy(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(Instance);
+            _playerControlls = new PlayerControlls();
+            _currentActionMap = _playerControlls.Gameplay;
             return;
         }
+        else
+        {
+            Destroy(this);
+            Destroy(this.gameObject);
+        }
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-        _playerControlls = new PlayerControlls();
-        _currentActionMap = _playerControlls.Gameplay;
+        
     }
 
     private void OnEnable()
@@ -64,7 +70,8 @@ public class InputManager : MonoBehaviour
 
     private void OnPauseGamePerformed(InputAction.CallbackContext context)
     {
-        GameManager.Instance.ChangeState(GameState.Paused);
+        SceneManager.LoadScene("MainMenu");
+        //GameManager.Instance.ChangeState(GameState.Paused);
     }
 
     private void OnCameraRotation(InputAction.CallbackContext context)
@@ -92,19 +99,28 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         _currentActionMap?.Disable();
+        #region MovementInput
 
         _playerControlls.Gameplay.Move.started -= OnMovementInput;
         _playerControlls.Gameplay.Move.canceled -= OnMovementInput;
         _playerControlls.Gameplay.Move.performed -= OnMovementInput;
 
+        #endregion MovementInput
+
+        #region RunInput
+
         _playerControlls.Gameplay.Run.started -= OnRunInput;
         _playerControlls.Gameplay.Run.canceled -= OnRunInput;
         _playerControlls.Gameplay.Run.performed -= OnRunInput;
 
-        _playerControlls.Gameplay.ToggleDrawMode.started -= OnToggleDrawMode;
+        #endregion RunInput
+
+        _playerControlls.Gameplay.ToggleDrawMode.performed -= OnToggleDrawMode;
 
         _playerControlls.Gameplay.CameraRotation.started -= OnCameraRotation;
         _playerControlls.Gameplay.CameraRotation.canceled -= OnCameraRotation;
+
+        _playerControlls.Gameplay.PauseGame.performed -= OnPauseGamePerformed;
 
         _playerControlls.DrawingMode.Return.performed -= OnToggleDrawMode;
     }

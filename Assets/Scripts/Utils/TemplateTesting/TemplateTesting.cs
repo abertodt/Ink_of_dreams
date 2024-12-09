@@ -9,6 +9,7 @@ public class TemplateTesting : MonoBehaviour
     [SerializeField] private TMP_InputField _inputField;
     [SerializeField] private GestureTemplates _gestureTemplates;
     [SerializeField] private LineGenerator _lineGenerator;
+    [SerializeField] private TMP_Text _text;
     private GestureUtils _gestureUtils;
 
     private void Start()
@@ -54,5 +55,10 @@ public class TemplateTesting : MonoBehaviour
         TemplateData? closest = _gestureUtils.FindClosestTemplate(points, _gestureTemplates.Templates);
 
         Debug.Log(closest?.Name);
+    }
+
+    public void ResultText(string text)
+    {
+        _text.text = text;
     }
 }

@@ -10,13 +10,14 @@ public class LineGenerator : MonoBehaviour
     [SerializeField] private int _maxActiveLines;
     [SerializeField] private float _minLineDistance;
     [SerializeField] private GestureTemplates _templates;
+    [SerializeField] private TemplateTesting _templateTesting;
 
     [Header("Events")]
     [SerializeField] private GameEvent _drawingMatch;
 
     private Coroutine _drawing;
     public List<GameObject> _currentLines = new List<GameObject>();
-    private int _activeLines;
+    public int _activeLines;
     private float totalDistance = 0f;
     private GameObject line;
     private bool _isDrawing;
@@ -91,13 +92,16 @@ public class LineGenerator : MonoBehaviour
         
         StopCoroutine(_drawing);
 
-      
+        Debug.Log(_currentLines.Count);
 
-        TemplateData? foundTemplate = _gestureUtils.FindClosestTemplate(_gestureUtils.FlattenStrokes(_currentLines), _templates.Templates);
+        List<Vector2> points = _gestureUtils.FlattenStrokes(_currentLines);
+
+        TemplateData? foundTemplate = _gestureUtils.FindClosestTemplate(points, _templates.Templates);
 
         if (foundTemplate != null)
         {
             Debug.Log($"Event raised, {foundTemplate?.Name}");
+            _templateTesting?.ResultText(foundTemplate?.Name);
             _drawingMatch.Raise();
             EraseLines();
         }
@@ -110,7 +114,7 @@ public class LineGenerator : MonoBehaviour
 
     private void EraseLines()
     {
-        if(_isErasing) return;
+        if (_isErasing) return;
 
         _isErasing = true;
 

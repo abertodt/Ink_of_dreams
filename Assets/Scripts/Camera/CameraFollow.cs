@@ -21,8 +21,8 @@ public class CameraFollow : PausableMonoBehaviour
     private void Start()
     {
         Camera.main.fieldOfView = _FOV;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
 
         Vector3 angles = transform.eulerAngles;
         _yaw = angles.y;

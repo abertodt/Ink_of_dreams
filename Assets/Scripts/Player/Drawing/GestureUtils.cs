@@ -56,7 +56,6 @@ public class GestureUtils
 
     public List<Vector2> ResampleStroke(List<Vector2> points)
     {
-        // Use the class's private numPoints variable
         if (points == null || points.Count < 2 || _numPoints < 2)
         {
             Debug.LogError("Invalid input: Gesture must have at least two points, and numPoints must be at least 2.");
@@ -65,10 +64,7 @@ public class GestureUtils
 
         // Calculate the total path length of the gesture
         float totalLength = 0f;
-        List<float> distances = new List<float>
-    {
-        0f // Distance from the first point to itself is 0
-    };
+        List<float> distances = new List<float> { 0f };
 
         for (int i = 1; i < points.Count; i++)
         {
@@ -111,7 +107,6 @@ public class GestureUtils
             currentDistance += interval;
         }
 
-        // Ensure the last point is included
         if (resampledPoints.Count < _numPoints)
         {
             resampledPoints.Add(points[points.Count - 1]);
@@ -120,17 +115,14 @@ public class GestureUtils
         return resampledPoints;
     }
 
-    
-    // Calculate DTW distance between two sequences
+
     public static float CalculateDTW(List<Vector2> sequenceA, List<Vector2> sequenceB)
     {
         int n = sequenceA.Count;
         int m = sequenceB.Count;
 
-        // Create a 2D array for DTW distances
         float[,] dtw = new float[n + 1, m + 1];
 
-        // Initialize with infinity
         for (int i = 0; i <= n; i++)
         {
             for (int j = 0; j <= m; j++)
@@ -139,7 +131,6 @@ public class GestureUtils
             }
         }
 
-        // Set the starting point
         dtw[0, 0] = 0;
 
         // Compute DTW
@@ -159,7 +150,6 @@ public class GestureUtils
 
     public TemplateData? FindClosestTemplate(List<Vector2> input, List<TemplateData> templates)
     {
-        // Preprocess the input gesture
         input = NormalizeStroke(input);
         input = ResampleStroke(input);
 
@@ -168,7 +158,6 @@ public class GestureUtils
 
         foreach (var template in templates)
         {
-            // Ensure templates are also preprocessed
             List<Vector2> processedTemplate = ResampleStroke(NormalizeStroke(template.Positions));
             float distance = CalculateDTW(input, processedTemplate);
 
