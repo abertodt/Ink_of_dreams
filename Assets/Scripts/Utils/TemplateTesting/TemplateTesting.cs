@@ -51,8 +51,8 @@ public class TemplateTesting : MonoBehaviour
 
         List<Vector2> points = _gestureUtils.FlattenStrokes(lines);
 
-        TemplateData closest = _gestureUtils.FindClosestTemplate(points, _gestureTemplates.Templates);
+        TemplateData? closest = _gestureUtils.FindClosestTemplate(points, _gestureTemplates.Templates);
 
-        Debug.Log(closest.Name);
+        Debug.Log(closest?.Name);
     }
 }

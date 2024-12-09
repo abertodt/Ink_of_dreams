@@ -4,7 +4,8 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     [Header("Events")]
-    [SerializeField] private GameEvent _DrawModePressed;
+    [SerializeField] private GameEvent _OnDrawModeStarted;
+    [SerializeField] private GameEvent _OnDrawModeEnd;
 
     public static InputManager Instance { get; private set; }
 
@@ -77,13 +78,15 @@ public class InputManager : MonoBehaviour
         if(GameManager.Instance.CurrentState == GameState.Drawing)
         {
             SetActionMap(_playerControlls.DrawingMode);
+            _OnDrawModeStarted.Raise();
         }
         else
         {
             SetActionMap(_playerControlls.Gameplay);
+            _OnDrawModeEnd.Raise();
         }
         
-        _DrawModePressed.Raise();
+        
     }
 
     private void OnDisable()

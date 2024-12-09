@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class GestureUtils
 {
     private int _numPoints = 100;
+    private float _threshold = 10;
     public List<Vector2> NormalizeStroke(List<Vector2> stroke)
     {
         if (stroke == null || stroke.Count == 0)
@@ -155,13 +157,13 @@ public class GestureUtils
         return dtw[n, m];
     }
 
-    public TemplateData FindClosestTemplate(List<Vector2> input, List<TemplateData> templates)
+    public TemplateData? FindClosestTemplate(List<Vector2> input, List<TemplateData> templates)
     {
         // Preprocess the input gesture
         input = NormalizeStroke(input);
         input = ResampleStroke(input);
 
-        TemplateData closestTemplate = new TemplateData("", null);
+        TemplateData? closestTemplate = null;
         float closestDistance = float.PositiveInfinity;
 
         foreach (var template in templates)
@@ -169,6 +171,7 @@ public class GestureUtils
             // Ensure templates are also preprocessed
             List<Vector2> processedTemplate = ResampleStroke(NormalizeStroke(template.Positions));
             float distance = CalculateDTW(input, processedTemplate);
+
             if (distance < closestDistance)
             {
                 closestDistance = distance;
@@ -176,7 +179,7 @@ public class GestureUtils
             }
         }
 
-        return closestTemplate;
+        // Return the closest template only if the distance is below the threshold
+        return closestDistance <= _threshold ? closestTemplate : null;
     }
-
 }

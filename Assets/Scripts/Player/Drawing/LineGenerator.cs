@@ -5,9 +5,14 @@ using UnityEngine;
 
 public class LineGenerator : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] private GameObject _linePrefab;
     [SerializeField] private int _maxActiveLines;
     [SerializeField] private float _minLineDistance;
+    [SerializeField] private GestureTemplates _templates;
+
+    [Header("Events")]
+    [SerializeField] private GameEvent _drawingMatch;
 
     private Coroutine _drawing;
     public List<GameObject> _currentLines = new List<GameObject>();
@@ -16,7 +21,7 @@ public class LineGenerator : MonoBehaviour
     private GameObject line;
     private bool _isDrawing;
     private bool _isErasing;
-    private GestureUtils _gestureUtils;
+    private GestureUtils _gestureUtils = new GestureUtils();
 
 
     //Hay un bug si borras la lista e intentas dibujar muy rapido otra vez
@@ -73,7 +78,6 @@ public class LineGenerator : MonoBehaviour
         {
             if (totalDistance < _minLineDistance)
             {
-                //Debug.Log(totalDistance);
                 _currentLines.Remove(line);
                 Destroy(line);
                 _activeLines--;
@@ -86,6 +90,21 @@ public class LineGenerator : MonoBehaviour
         
         
         StopCoroutine(_drawing);
+
+      
+
+        TemplateData? foundTemplate = _gestureUtils.FindClosestTemplate(_gestureUtils.FlattenStrokes(_currentLines), _templates.Templates);
+
+        if (foundTemplate != null)
+        {
+            Debug.Log($"Event raised, {foundTemplate?.Name}");
+            _drawingMatch.Raise();
+            EraseLines();
+        }
+        else if (_activeLines >= _maxActiveLines)
+        {
+            EraseLines();
+        }
 
     }
 
@@ -150,6 +169,4 @@ public class LineGenerator : MonoBehaviour
         }
 
     }
-
-   
 }
