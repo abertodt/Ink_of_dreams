@@ -7,6 +7,16 @@ public class InputManager : MonoBehaviour
     [Header("Events")]
     [SerializeField] private GameEvent _OnDrawModeStarted;
     [SerializeField] private GameEvent _OnDrawModeEnd;
+    //Borrar despues, son los cheats
+    [SerializeField] private GameEvent _OnDrawCheat1;
+    [SerializeField] private GameEvent _OnDrawCheat2;
+    [SerializeField] private GameEvent _OnDrawCheat3;
+
+    //Borrar despues, esto no deberia ir aqui, es para los cheats
+    [Header("Prefabs")]
+    [SerializeField] private GameObject _prefab1;
+    [SerializeField] private GameObject _prefab2;
+    [SerializeField] private GameObject _prefab3;
 
     public static InputManager Instance { get; private set; }
 
@@ -20,20 +30,21 @@ public class InputManager : MonoBehaviour
     public bool IsAttacking { get; private set; }
     public bool IsDrawModeInputPressed { get; private set; }
     public Vector2 CameraRotation { get; private set; }
+
     private void Awake()
     {
+        //Debug.Log("Awake");
         if (Instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(Instance);
             _playerControlls = new PlayerControlls();
             _currentActionMap = _playerControlls.Gameplay;
-            return;
+            Instance = this;
+            DontDestroyOnLoad(Instance);
         }
         else
         {
             Destroy(this);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         
@@ -41,6 +52,7 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
+        //Debug.Log("Enable");
         _currentActionMap?.Enable();
         #region MovementInput
 
@@ -66,6 +78,31 @@ public class InputManager : MonoBehaviour
         _playerControlls.Gameplay.PauseGame.performed += OnPauseGamePerformed;
 
         _playerControlls.DrawingMode.Return.performed += OnToggleDrawMode;
+
+        #region Cheats
+
+        _playerControlls.Gameplay.SpawnObj1.performed += OnSpawnObjCheat;
+        _playerControlls.Gameplay.SpawnObj2.performed += OnSpawnObjCheat;
+
+        #endregion Cheats
+    }
+
+    private void OnSpawnObjCheat(InputAction.CallbackContext context)
+    {
+        InputAction buttonPressed = context.action;
+        
+        switch (buttonPressed.name) 
+        {
+            case "SpawnObj1":
+                _OnDrawCheat1.Raise(this, _prefab1);
+                break;
+            case "SpawnObj2":
+                _OnDrawCheat2.Raise(this, _prefab2);
+                break;
+            default:
+                break;
+
+        }
     }
 
     private void OnPauseGamePerformed(InputAction.CallbackContext context)
@@ -85,12 +122,12 @@ public class InputManager : MonoBehaviour
         if(GameManager.Instance.CurrentState == GameState.Drawing)
         {
             SetActionMap(_playerControlls.DrawingMode);
-            _OnDrawModeStarted.Raise();
+            _OnDrawModeStarted.Raise(this, _currentActionMap);
         }
         else
         {
             SetActionMap(_playerControlls.Gameplay);
-            _OnDrawModeEnd.Raise();
+            _OnDrawModeEnd.Raise(this, _currentActionMap);
         }
         
         
@@ -98,7 +135,7 @@ public class InputManager : MonoBehaviour
 
     private void OnDisable()
     {
-        _currentActionMap?.Disable();
+        //Debug.Log("Disable");
         #region MovementInput
 
         _playerControlls.Gameplay.Move.started -= OnMovementInput;
@@ -123,6 +160,15 @@ public class InputManager : MonoBehaviour
         _playerControlls.Gameplay.PauseGame.performed -= OnPauseGamePerformed;
 
         _playerControlls.DrawingMode.Return.performed -= OnToggleDrawMode;
+
+        #region Cheats
+
+        _playerControlls.Gameplay.SpawnObj1.performed -= OnSpawnObjCheat;
+        _playerControlls.Gameplay.SpawnObj2.performed -= OnSpawnObjCheat;
+
+        #endregion Cheats
+
+        _currentActionMap?.Disable();
     }
 
     private void OnMovementInput(InputAction.CallbackContext context)

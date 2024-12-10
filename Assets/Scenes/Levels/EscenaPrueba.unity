@@ -333,6 +333,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 62608130965214528, guid: 23d4d4620b4ec82429878cb5c6acc7d9, type: 3}
+      propertyPath: near clip plane
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 1892667184150948363, guid: 23d4d4620b4ec82429878cb5c6acc7d9, type: 3}
       propertyPath: weight
       value: 0
@@ -642,6 +646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e6e2156b507c60468071c214eb481e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OriginalCamera: {fileID: 0}
+  SecondaryCamera: {fileID: 0}
 --- !u!4 &825633348
 Transform:
   m_ObjectHideFlags: 0
@@ -1039,6 +1045,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _OnDrawModeStarted: {fileID: 11400000, guid: 833f869a88206ef448bf6dbc6728de89, type: 2}
   _OnDrawModeEnd: {fileID: 11400000, guid: 5f0105901274e754cb319388980486da, type: 2}
+  _OnDrawCheat1: {fileID: 0}
+  _OnDrawCheat2: {fileID: 0}
+  _OnDrawCheat3: {fileID: 0}
+  _prefab1: {fileID: 0}
+  _prefab2: {fileID: 0}
+  _prefab3: {fileID: 0}
 --- !u!4 &1777573508
 Transform:
   m_ObjectHideFlags: 0

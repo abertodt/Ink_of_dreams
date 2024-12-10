@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
 
     public event Action<GameState> OnGameStateChanged;
 
+
+    public Camera OriginalCamera;
+    public Camera SecondaryCamera;
+
     private void Awake()
     {
         if (_instance != null && _instance != this)

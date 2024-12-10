@@ -71,6 +71,24 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpawnObj1"",
+                    ""type"": ""Button"",
+                    ""id"": ""836de9e5-4d60-41f7-bf6c-6e0f6e2672fa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SpawnObj2"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5c51e3c-7899-4d85-9afd-3fa72384ef36"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -170,6 +188,28 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""PauseGame"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2ad2ac94-3c13-4baa-9068-0933184b53e5"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpawnObj1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""461e59d0-071b-4d2a-8039-7faaab49c0a9"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SpawnObj2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -376,6 +416,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_Gameplay_ToggleDrawMode = m_Gameplay.FindAction("ToggleDrawMode", throwIfNotFound: true);
         m_Gameplay_CameraRotation = m_Gameplay.FindAction("CameraRotation", throwIfNotFound: true);
         m_Gameplay_PauseGame = m_Gameplay.FindAction("PauseGame", throwIfNotFound: true);
+        m_Gameplay_SpawnObj1 = m_Gameplay.FindAction("SpawnObj1", throwIfNotFound: true);
+        m_Gameplay_SpawnObj2 = m_Gameplay.FindAction("SpawnObj2", throwIfNotFound: true);
         // DrawingMode
         m_DrawingMode = asset.FindActionMap("DrawingMode", throwIfNotFound: true);
         m_DrawingMode_Draw = m_DrawingMode.FindAction("Draw", throwIfNotFound: true);
@@ -452,6 +494,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_ToggleDrawMode;
     private readonly InputAction m_Gameplay_CameraRotation;
     private readonly InputAction m_Gameplay_PauseGame;
+    private readonly InputAction m_Gameplay_SpawnObj1;
+    private readonly InputAction m_Gameplay_SpawnObj2;
     public struct GameplayActions
     {
         private @PlayerControlls m_Wrapper;
@@ -461,6 +505,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @ToggleDrawMode => m_Wrapper.m_Gameplay_ToggleDrawMode;
         public InputAction @CameraRotation => m_Wrapper.m_Gameplay_CameraRotation;
         public InputAction @PauseGame => m_Wrapper.m_Gameplay_PauseGame;
+        public InputAction @SpawnObj1 => m_Wrapper.m_Gameplay_SpawnObj1;
+        public InputAction @SpawnObj2 => m_Wrapper.m_Gameplay_SpawnObj2;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -485,6 +531,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @PauseGame.started += instance.OnPauseGame;
             @PauseGame.performed += instance.OnPauseGame;
             @PauseGame.canceled += instance.OnPauseGame;
+            @SpawnObj1.started += instance.OnSpawnObj1;
+            @SpawnObj1.performed += instance.OnSpawnObj1;
+            @SpawnObj1.canceled += instance.OnSpawnObj1;
+            @SpawnObj2.started += instance.OnSpawnObj2;
+            @SpawnObj2.performed += instance.OnSpawnObj2;
+            @SpawnObj2.canceled += instance.OnSpawnObj2;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -504,6 +556,12 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @PauseGame.started -= instance.OnPauseGame;
             @PauseGame.performed -= instance.OnPauseGame;
             @PauseGame.canceled -= instance.OnPauseGame;
+            @SpawnObj1.started -= instance.OnSpawnObj1;
+            @SpawnObj1.performed -= instance.OnSpawnObj1;
+            @SpawnObj1.canceled -= instance.OnSpawnObj1;
+            @SpawnObj2.started -= instance.OnSpawnObj2;
+            @SpawnObj2.performed -= instance.OnSpawnObj2;
+            @SpawnObj2.canceled -= instance.OnSpawnObj2;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -652,6 +710,8 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnToggleDrawMode(InputAction.CallbackContext context);
         void OnCameraRotation(InputAction.CallbackContext context);
         void OnPauseGame(InputAction.CallbackContext context);
+        void OnSpawnObj1(InputAction.CallbackContext context);
+        void OnSpawnObj2(InputAction.CallbackContext context);
     }
     public interface IDrawingModeActions
     {

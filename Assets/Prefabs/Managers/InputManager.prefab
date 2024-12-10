@@ -46,3 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _OnDrawModeStarted: {fileID: 11400000, guid: 833f869a88206ef448bf6dbc6728de89, type: 2}
   _OnDrawModeEnd: {fileID: 11400000, guid: 5f0105901274e754cb319388980486da, type: 2}
+  _OnDrawCheat1: {fileID: 11400000, guid: 7a20aa405c606514abbf2741395a181d, type: 2}
+  _OnDrawCheat2: {fileID: 11400000, guid: 43e319b93b34ca449a5261dcc7906f32, type: 2}
+  _OnDrawCheat3: {fileID: 0}
+  _prefab1: {fileID: 3674448839268500008, guid: 97ee961d736a13b49b44cccb279692ab, type: 3}
+  _prefab2: {fileID: 1555572659340814768, guid: 4c9b59541bb796443b735e81e0d7acc1, type: 3}
+  _prefab3: {fileID: 0}

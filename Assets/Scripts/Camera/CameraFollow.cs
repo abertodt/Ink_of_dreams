@@ -20,7 +20,7 @@ public class CameraFollow : PausableMonoBehaviour
 
     private void Start()
     {
-        Camera.main.fieldOfView = _FOV;
+        GetComponentInChildren<Camera>().fieldOfView = _FOV;
         //Cursor.lockState = CursorLockMode.Locked;
         //Cursor.visible = false;
 
@@ -30,24 +30,31 @@ public class CameraFollow : PausableMonoBehaviour
         transform.position = _target.position - _target.forward * _distanceToTarget + Vector3.up * _followHeight;
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        GameManager.Instance.OriginalCamera = GetComponentInChildren<Camera>();
+    }
+
     protected override void OnPausableLateUpdate()
     {
         Vector3 desiredPosition = _target.position - _target.forward * _distanceToTarget + Vector3.up * _followHeight;
         transform.position = Vector3.Lerp(transform.position, desiredPosition, _followSpeed * Time.deltaTime);
+        _camera.transform.LookAt(_target.position);
 
-        _yaw += InputManager.Instance.CameraRotation.x * _rotationSpeed;
-        _pitch -= InputManager.Instance.CameraRotation.y * _rotationSpeed;
-        _pitch = Mathf.Clamp(_pitch, _minPitchRotation, _maxPitchRotation);
+        //_yaw += InputManager.Instance.CameraRotation.x * _rotationSpeed;
+        //_pitch -= InputManager.Instance.CameraRotation.y * _rotationSpeed;
+        //_pitch = Mathf.Clamp(_pitch, _minPitchRotation, _maxPitchRotation);
 
 
 
-        transform.rotation = Quaternion.Euler(0f, _yaw, 0f);
+        //transform.rotation = Quaternion.Euler(0f, _yaw, 0f);
 
-        Vector3 directionToTarget = _target.position - _camera.position;
-        Quaternion lookAtRotation = Quaternion.LookRotation(directionToTarget);
+        //Vector3 directionToTarget = _target.position - _camera.position;
+        //Quaternion lookAtRotation = Quaternion.LookRotation(directionToTarget);
 
-        Quaternion pitchRotation = Quaternion.Euler(_pitch, 0f, 0f);
-        _camera.localRotation = lookAtRotation * pitchRotation;
+        //Quaternion pitchRotation = Quaternion.Euler(_pitch, 0f, 0f);
+        //_camera.localRotation = lookAtRotation * pitchRotation;
     }
 
     public void ToggleDrawModeVolume()

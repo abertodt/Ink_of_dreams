@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +9,7 @@ public class LineGenerator : MonoBehaviour
     [SerializeField] private int _maxActiveLines;
     [SerializeField] private float _minLineDistance;
     [SerializeField] private GestureTemplates _templates;
-    [SerializeField] private TemplateTesting _templateTesting;
+    [SerializeField] private TemplateTesting _templateTesting =  null;
 
     [Header("Events")]
     [SerializeField] private GameEvent _drawingMatch;
@@ -102,7 +101,7 @@ public class LineGenerator : MonoBehaviour
         {
             Debug.Log($"Event raised, {foundTemplate?.Name}");
             _templateTesting?.ResultText(foundTemplate?.Name);
-            _drawingMatch.Raise();
+            _drawingMatch.Raise(this, foundTemplate);
             EraseLines();
         }
         else if (_activeLines >= _maxActiveLines)
@@ -149,7 +148,10 @@ public class LineGenerator : MonoBehaviour
 
         while (true)
         {
-            Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mousepos = Input.mousePosition;
+            mousepos.z = 1;
+            Vector3 position = Camera.main.ScreenToWorldPoint(mousepos);
+            Debug.Log(Input.mousePosition);
             position.z = 0;
 
             float distance = Vector2.Distance(position, lastPosition);
