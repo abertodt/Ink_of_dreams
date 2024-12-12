@@ -12,7 +12,8 @@ public class LineGenerator : MonoBehaviour
     [SerializeField] private TemplateTesting _templateTesting =  null;
 
     [Header("Events")]
-    [SerializeField] private GameEvent _drawingMatch;
+    [SerializeField] private GameEvent _onDrawMatch;
+    [SerializeField] private GameEvent _onDrawModeEnd;
 
     private Coroutine _drawing;
     public List<GameObject> _currentLines = new List<GameObject>();
@@ -101,7 +102,8 @@ public class LineGenerator : MonoBehaviour
         {
             Debug.Log($"Event raised, {foundTemplate?.Name}");
             _templateTesting?.ResultText(foundTemplate?.Name);
-            _drawingMatch.Raise(this, foundTemplate);
+            _onDrawMatch?.Raise(this, foundTemplate?.ObjectToSpawn);
+            _onDrawModeEnd?.Raise(this, null);
             EraseLines();
         }
         else if (_activeLines >= _maxActiveLines)
@@ -139,7 +141,7 @@ public class LineGenerator : MonoBehaviour
         lineRenderer.positionCount = 0;
 
         Vector3 lastPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        lastPosition.z = 0;
+        lastPosition.z = 5;
 
         
 
@@ -151,8 +153,7 @@ public class LineGenerator : MonoBehaviour
             Vector3 mousepos = Input.mousePosition;
             mousepos.z = 1;
             Vector3 position = Camera.main.ScreenToWorldPoint(mousepos);
-            Debug.Log(Input.mousePosition);
-            position.z = 0;
+            position.z = 5;
 
             float distance = Vector2.Distance(position, lastPosition);
 

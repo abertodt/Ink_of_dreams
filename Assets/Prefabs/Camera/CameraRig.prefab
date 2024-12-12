@@ -181,6 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5249480030232993502}
   - component: {fileID: 9215652423625772641}
+  - component: {fileID: -7497349345470236376}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -225,4 +226,44 @@ MonoBehaviour:
   _rotationSpeed: 0.2
   _minPitchRotation: -45
   _maxPitchRotation: 45
-  _drawModeVolume: {fileID: 0}
+  _onScreenshotTaken: {fileID: 11400000, guid: 1cf624769e7072c40b28822638e70f55, type: 2}
+--- !u!114 &-7497349345470236376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1975237905026607364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3291570c86830d468187be669f28730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: 833f869a88206ef448bf6dbc6728de89, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9215652423625772641}
+        m_TargetAssemblyTypeName: CameraFollow, Assembly-CSharp
+        m_MethodName: TakeScreenshot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 62608130965214528}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2

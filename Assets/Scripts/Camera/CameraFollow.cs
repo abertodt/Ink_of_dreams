@@ -13,7 +13,9 @@ public class CameraFollow : PausableMonoBehaviour
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _minPitchRotation;
     [SerializeField] private float _maxPitchRotation;
-    [SerializeField] private PostProcessVolume _drawModeVolume;
+
+    [Header("Settings")]
+    [SerializeField] private GameEvent _onScreenshotTaken;
 
     private float _yaw = 0f;
     private float _pitch = 0f;
@@ -57,15 +59,9 @@ public class CameraFollow : PausableMonoBehaviour
         //_camera.localRotation = lookAtRotation * pitchRotation;
     }
 
-    public void ToggleDrawModeVolume()
+    public void TakeScreenshot(Component sender, object data)
     {
-        if(_drawModeVolume.weight <= 0)
-        {
-            _drawModeVolume.weight = 1;
-        }
-        else
-        {
-            _drawModeVolume.weight = 0;
-        }
+        Texture2D screenshot = ScreenCapture.CaptureScreenshotAsTexture();
+        _onScreenshotTaken?.Raise(this, screenshot);
     }
 }

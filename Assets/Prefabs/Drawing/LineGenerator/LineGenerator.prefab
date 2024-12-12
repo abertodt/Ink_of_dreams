@@ -52,7 +52,8 @@ MonoBehaviour:
   _minLineDistance: 1
   _templates: {fileID: 11400000, guid: b3b74cbf3e01b3e4099d795575fe47e0, type: 2}
   _templateTesting: {fileID: 0}
-  _drawingMatch: {fileID: 11400000, guid: 416f94ce6cebd16409f0c895363d28d5, type: 2}
+  _onDrawMatch: {fileID: 11400000, guid: 416f94ce6cebd16409f0c895363d28d5, type: 2}
+  _onDrawModeEnd: {fileID: 11400000, guid: 5f0105901274e754cb319388980486da, type: 2}
   _currentLines: []
   _activeLines: 0
 --- !u!114 &-8380041247059457251

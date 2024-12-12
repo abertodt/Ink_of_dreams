@@ -115,4 +115,4 @@ MonoBehaviour:
     - {x: -0.41728926, y: -0.41628966}
     - {x: -0.44639668, y: -0.42081457}
     - {x: -0.4728508, y: -0.4253394}
-    ObjectToSpawn: {fileID: 0}
+    ObjectToSpawn: {fileID: 3674448839268500008, guid: 97ee961d736a13b49b44cccb279692ab, type: 3}

@@ -4,6 +4,9 @@ using System;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Events")]
+    [SerializeField] private GameEvent _onCameraSwitch;
+
     private static GameManager _instance;
     public static GameManager Instance => _instance;
 
@@ -57,6 +60,14 @@ public class GameManager : MonoBehaviour
         {
             ChangeState(GameState.Normal);
         }
+    }
+
+    public void SwitchMainCamera(Component sender, object data)
+    {
+        OriginalCamera.enabled = !OriginalCamera.enabled;
+        SecondaryCamera.enabled = !SecondaryCamera.enabled;
+
+        if(sender is CameraFollow) _onCameraSwitch?.Raise(this, data);
     }
 }
 
