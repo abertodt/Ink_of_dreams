@@ -33,6 +33,8 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+
+
         //Debug.Log("Awake");
         if (Instance == null)
         {
@@ -40,6 +42,7 @@ public class InputManager : MonoBehaviour
             _currentActionMap = _playerControlls.Gameplay;
             Instance = this;
             DontDestroyOnLoad(Instance);
+
         }
         else
         {
