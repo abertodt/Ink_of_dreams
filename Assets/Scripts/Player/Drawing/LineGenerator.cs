@@ -92,8 +92,6 @@ public class LineGenerator : MonoBehaviour
         
         StopCoroutine(_drawing);
 
-        Debug.Log(_currentLines.Count);
-
         List<Vector2> points = _gestureUtils.FlattenStrokes(_currentLines);
 
         TemplateData? foundTemplate = _gestureUtils.FindClosestTemplate(points, _templates.Templates);
