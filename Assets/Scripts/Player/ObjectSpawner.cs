@@ -8,6 +8,7 @@ public class ObjectSpawner : MonoBehaviour
         {
             Debug.Log(sender.name);
             Instantiate((GameObject)data, transform.position, transform.rotation);
+            GameManager.Instance.ToggleDrawMode();
         }
     }
 }

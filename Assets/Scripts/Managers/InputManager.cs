@@ -33,8 +33,6 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-
-
         //Debug.Log("Awake");
         if (Instance == null)
         {
@@ -49,8 +47,6 @@ public class InputManager : MonoBehaviour
             Destroy(this);
             Destroy(gameObject);
         }
-
-        
     }
 
     private void OnEnable()
@@ -132,8 +128,6 @@ public class InputManager : MonoBehaviour
             SetActionMap(_playerControlls.Gameplay);
             _OnDrawModeEnd.Raise(this, _currentActionMap);
         }
-        
-        
     }
 
     private void OnDisable()
