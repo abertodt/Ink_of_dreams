@@ -1,22 +1,29 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Windows;
 
 public class InputManager : MonoBehaviour
 {
     [Header("Events")]
-    [SerializeField] private GameEvent _OnDrawModeStarted;
-    [SerializeField] private GameEvent _OnDrawModeEnd;
+    [SerializeField] private GameEvent _onDrawModeStarted;
+    [SerializeField] private GameEvent _onDrawModeEnd;
+    [SerializeField] private GameEvent _onPauseInput;
+    [SerializeField] private GameEvent _onResumeInput;
     //Borrar despues, son los cheats
-    [SerializeField] private GameEvent _OnDrawCheat1;
-    [SerializeField] private GameEvent _OnDrawCheat2;
-    [SerializeField] private GameEvent _OnDrawCheat3;
+    [SerializeField] private GameEvent _onDrawCheat1;
+    [SerializeField] private GameEvent _onDrawCheat2;
+    [SerializeField] private GameEvent _onDrawCheat3;
 
     //Borrar despues, esto no deberia ir aqui, es para los cheats
     [Header("Prefabs")]
     [SerializeField] private GameObject _prefab1;
     [SerializeField] private GameObject _prefab2;
     [SerializeField] private GameObject _prefab3;
+
+    [Header("Config")]
+    [SerializeField] private ScenesConfiguration _scenesConfiguration;
 
     public static InputManager Instance { get; private set; }
 
@@ -30,6 +37,7 @@ public class InputManager : MonoBehaviour
     public bool IsAttacking { get; private set; }
     public bool IsDrawModeInputPressed { get; private set; }
     public Vector2 CameraRotation { get; private set; }
+    public bool IsPauseInputPressed { get; private set; }
 
     private void Awake()
     {
@@ -37,7 +45,6 @@ public class InputManager : MonoBehaviour
         if (Instance == null)
         {
             _playerControlls = new PlayerControlls();
-            _currentActionMap = _playerControlls.Gameplay;
             Instance = this;
             DontDestroyOnLoad(Instance);
 
@@ -51,7 +58,8 @@ public class InputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //Debug.Log("Enable");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SetDefaultActionMap();
         _currentActionMap?.Enable();
         #region MovementInput
 
@@ -74,9 +82,11 @@ public class InputManager : MonoBehaviour
         _playerControlls.Gameplay.CameraRotation.started += OnCameraRotation;
         _playerControlls.Gameplay.CameraRotation.canceled += OnCameraRotation;
 
-        _playerControlls.Gameplay.PauseGame.performed += OnPauseGamePerformed;
+        _playerControlls.Gameplay.PauseGame.performed += OnEscPressed;
 
         _playerControlls.DrawingMode.Return.performed += OnToggleDrawMode;
+
+        _playerControlls.UI.Back.started += OnEscPressed;
 
         #region Cheats
 
@@ -86,17 +96,59 @@ public class InputManager : MonoBehaviour
         #endregion Cheats
     }
 
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        SetDefaultActionMap();
+    }
+
+    private void SetDefaultActionMap()
+    {
+        string activeScene = SceneManager.GetActiveScene().name;
+        if (_scenesConfiguration.UIScenes.Contains(activeScene))
+        {
+            SetActionMap(_playerControlls.UI);
+        }
+        else if(_scenesConfiguration.GameplayScenes.Contains(activeScene))
+        {
+            SetActionMap(_playerControlls.Gameplay);
+        }
+        else
+        {
+            Debug.Log($"{activeScene} is not configurated in SceneConfig");
+        }
+    }
+
+    private void OnEscPressed(InputAction.CallbackContext context)
+    {
+        string activeScene = SceneManager.GetActiveScene().name;
+        if (!_scenesConfiguration.UIScenes.Contains(activeScene))
+        {
+            IsPauseInputPressed = !IsPauseInputPressed;
+            if (IsPauseInputPressed)
+            {
+                _onPauseInput?.Raise(this, IsPauseInputPressed);
+                SetActionMap(_playerControlls.UI);
+            }
+            else
+            {
+                _onResumeInput?.Raise(this, IsPauseInputPressed);
+                SetActionMap(_playerControlls.Gameplay);
+            }
+        }
+        
+    }
+
     private void OnSpawnObjCheat(InputAction.CallbackContext context)
     {
         InputAction buttonPressed = context.action;
-        
-        switch (buttonPressed.name) 
+
+        switch (buttonPressed.name)
         {
             case "SpawnObj1":
-                _OnDrawCheat1.Raise(this, _prefab1);
+                _onDrawCheat1.Raise(this, _prefab1);
                 break;
             case "SpawnObj2":
-                _OnDrawCheat2.Raise(this, _prefab2);
+                _onDrawCheat2.Raise(this, _prefab2);
                 break;
             default:
                 break;
@@ -118,20 +170,21 @@ public class InputManager : MonoBehaviour
     private void OnToggleDrawMode(InputAction.CallbackContext context)
     {
         GameManager.Instance.ToggleDrawMode();
-        if(GameManager.Instance.CurrentState == GameState.Drawing)
+        if (GameManager.Instance.CurrentState == GameState.Drawing)
         {
             SetActionMap(_playerControlls.DrawingMode);
-            _OnDrawModeStarted.Raise(this, _currentActionMap);
+            _onDrawModeStarted.Raise(this, _currentActionMap);
         }
         else
         {
             SetActionMap(_playerControlls.Gameplay);
-            _OnDrawModeEnd.Raise(this, _currentActionMap);
+            _onDrawModeEnd.Raise(this, _currentActionMap);
         }
     }
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         //Debug.Log("Disable");
         #region MovementInput
 
@@ -157,6 +210,8 @@ public class InputManager : MonoBehaviour
         _playerControlls.Gameplay.PauseGame.performed -= OnPauseGamePerformed;
 
         _playerControlls.DrawingMode.Return.performed -= OnToggleDrawMode;
+
+        _playerControlls.UI.Back.started -= OnEscPressed;
 
         #region Cheats
 
@@ -189,6 +244,6 @@ public class InputManager : MonoBehaviour
         _currentActionMap = newActionMap;
         _currentActionMap?.Enable();
 
-        Debug.Log($"{newActionMap.name} entered");
+        //Debug.Log($"{newActionMap.name} entered");
     }
 }

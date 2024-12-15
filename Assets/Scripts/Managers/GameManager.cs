@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public static GameManager Instance => _instance;
 
-    public GameState CurrentState { get; private set; } = GameState.Normal;
+    public GameState CurrentState { get; private set; } = GameState.Gameplay;
 
     public event Action<GameState> OnGameStateChanged;
 
@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentState == GameState.Paused)
         {
-            ChangeState(GameState.Normal);
+            ChangeState(GameState.Gameplay);
         }
         else
         {
@@ -52,13 +52,13 @@ public class GameManager : MonoBehaviour
 
     public void ToggleDrawMode()
     { 
-        if (CurrentState == GameState.Normal)
+        if (CurrentState == GameState.Gameplay)
         {
             ChangeState(GameState.Drawing);
         }
         else if(CurrentState == GameState.Drawing)
         {
-            ChangeState(GameState.Normal);
+            ChangeState(GameState.Gameplay);
         }
     }
 
@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
 
 public enum GameState
 {
-    Normal,
+    Gameplay,
     Paused,
     Drawing
 }

@@ -44,11 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8182c688c7673fd4a8921db160ed04b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _OnDrawModeStarted: {fileID: 11400000, guid: 833f869a88206ef448bf6dbc6728de89, type: 2}
-  _OnDrawModeEnd: {fileID: 11400000, guid: 5f0105901274e754cb319388980486da, type: 2}
-  _OnDrawCheat1: {fileID: 11400000, guid: 7a20aa405c606514abbf2741395a181d, type: 2}
-  _OnDrawCheat2: {fileID: 11400000, guid: 43e319b93b34ca449a5261dcc7906f32, type: 2}
-  _OnDrawCheat3: {fileID: 0}
+  _onDrawModeStarted: {fileID: 11400000, guid: 833f869a88206ef448bf6dbc6728de89, type: 2}
+  _onDrawModeEnd: {fileID: 11400000, guid: 5f0105901274e754cb319388980486da, type: 2}
+  _onPauseInput: {fileID: 11400000, guid: 9bf9cb0106691f04795e7ef2dde4767b, type: 2}
+  _onResumeInput: {fileID: 11400000, guid: b52ec4e7f23b028499a1464c3545721f, type: 2}
+  _onDrawCheat1: {fileID: 11400000, guid: 7a20aa405c606514abbf2741395a181d, type: 2}
+  _onDrawCheat2: {fileID: 11400000, guid: 43e319b93b34ca449a5261dcc7906f32, type: 2}
+  _onDrawCheat3: {fileID: 0}
   _prefab1: {fileID: 3674448839268500008, guid: 97ee961d736a13b49b44cccb279692ab, type: 3}
   _prefab2: {fileID: 1555572659340814768, guid: 4c9b59541bb796443b735e81e0d7acc1, type: 3}
   _prefab3: {fileID: 0}
+  _scenesConfiguration: {fileID: 11400000, guid: b6e153b744c905941827e403ddf5c866, type: 2}
