@@ -5,19 +5,9 @@ public class PausableMonoBehaviour : MonoBehaviour
 {
     public bool IsPaused { get; private set; }
 
-    protected virtual void OnEnable()
+    private void CheckGameState()
     {
-        GameManager.Instance.OnGameStateChanged += OnGameStateChanged;
-    }
-
-    protected virtual void OnDisable()
-    {
-        GameManager.Instance.OnGameStateChanged -= OnGameStateChanged;
-    }
-
-    public virtual void OnGameStateChanged(GameState state)
-    {
-        IsPaused = (state == GameState.Paused || state == GameState.Drawing);
+        IsPaused = (GameManager.Instance.CurrentState == GameState.Paused || GameManager.Instance.CurrentState == GameState.Drawing);
         OnPauseStateChanged(IsPaused);
     }
 
@@ -25,6 +15,8 @@ public class PausableMonoBehaviour : MonoBehaviour
 
     protected virtual void Update()
     {
+        CheckGameState();
+
         if (IsPaused)
         {
             return;
@@ -34,6 +26,8 @@ public class PausableMonoBehaviour : MonoBehaviour
     }
     protected virtual void LateUpdate()
     {
+        CheckGameState();
+
         if (IsPaused)
         {
             return;

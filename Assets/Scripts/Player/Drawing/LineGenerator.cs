@@ -27,7 +27,6 @@ public class LineGenerator : MonoBehaviour
 
     //Hay un bug si borras la lista e intentas dibujar muy rapido otra vez
 
-    // Update is called once per frame
     void Update()
     {
         if (_isErasing) return;
@@ -46,6 +45,11 @@ public class LineGenerator : MonoBehaviour
         {
             EraseLines();
         }
+    }
+
+    private void OnEnable()
+    {
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void StartLine()

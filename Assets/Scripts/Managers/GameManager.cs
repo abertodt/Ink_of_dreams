@@ -12,9 +12,6 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentState { get; private set; } = GameState.Gameplay;
 
-    public event Action<GameState> OnGameStateChanged;
-
-
     public Camera OriginalCamera;
     public Camera SecondaryCamera;
 
@@ -34,7 +31,6 @@ public class GameManager : MonoBehaviour
         if (CurrentState == newState) return;
 
         CurrentState = newState;
-        OnGameStateChanged?.Invoke(newState);
     }
     
 
