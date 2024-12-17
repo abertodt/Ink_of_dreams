@@ -54,7 +54,7 @@ MonoBehaviour:
   _onDrawCheat1: {fileID: 11400000, guid: 7a20aa405c606514abbf2741395a181d, type: 2}
   _onDrawCheat2: {fileID: 11400000, guid: 43e319b93b34ca449a5261dcc7906f32, type: 2}
   _onDrawCheat3: {fileID: 0}
-  _prefab1: {fileID: 3674448839268500008, guid: 97ee961d736a13b49b44cccb279692ab, type: 3}
+  _prefab1: {fileID: 94839054261970487, guid: 74d1bf7d40838d2489d9a4c00840366c, type: 3}
   _prefab2: {fileID: 5698473773919321241, guid: 9d1d6e236eb80a14aa209205eed476a0, type: 3}
   _prefab3: {fileID: 0}
   _scenesConfiguration: {fileID: 11400000, guid: b6e153b744c905941827e403ddf5c866, type: 2}
