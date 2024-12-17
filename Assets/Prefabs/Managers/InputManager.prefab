@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1203779201787716693}
   - component: {fileID: 2965347853950592845}
   - component: {fileID: -6300426244539800275}
+  - component: {fileID: -1845706473099734567}
+  - component: {fileID: -1902571250896571364}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -56,12 +58,6 @@ MonoBehaviour:
   _prefab2: {fileID: 5698473773919321241, guid: 9d1d6e236eb80a14aa209205eed476a0, type: 3}
   _prefab3: {fileID: 0}
   _scenesConfiguration: {fileID: 11400000, guid: b6e153b744c905941827e403ddf5c866, type: 2}
-  _currentActionMap:
-    m_Name: Current
-    m_Id: c13aad70-c3a0-4de7-90e2-18de47e4cadd
-    m_Asset: {fileID: 0}
-    m_Actions: []
-    m_Bindings: []
 --- !u!114 &-6300426244539800275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +77,62 @@ MonoBehaviour:
       - m_Target: {fileID: 2965347853950592845}
         m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
         m_MethodName: ReturnToGameplay
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &-1845706473099734567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365896559899837183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3291570c86830d468187be669f28730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: de7e8964308e859429b6fe28eeb10a6a, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2965347853950592845}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: ToggleUIForTutorial
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &-1902571250896571364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365896559899837183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3291570c86830d468187be669f28730, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameEvent: {fileID: 11400000, guid: 8b2aad9966f7f34409ff0013e3c93ba8, type: 2}
+  _response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2965347853950592845}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: ToggleUIForTutorial
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

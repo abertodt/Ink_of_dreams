@@ -19,6 +19,7 @@ public class ObjectSpawner : MonoBehaviour
         {
             GameObject prefab = (GameObject)data;
             GameObject spawnedObject = Instantiate(prefab, transform.position, prefab.transform.rotation);
+            spawnedObject.transform.forward = gameObject.transform.forward;
 
             if (_splatterEffect != null)
             {

@@ -39,6 +39,8 @@ public class InputManager : MonoBehaviour
     public Vector2 CameraRotation { get; private set; }
     public bool IsPauseInputPressed { get; private set; }
 
+    public bool IsContinuePressed { get; private set; }
+
     private void Awake()
     {
         //Debug.Log("Awake");
@@ -88,12 +90,20 @@ public class InputManager : MonoBehaviour
 
         _playerControlls.UI.Back.started += OnEscPressed;
 
+        _playerControlls.UI.Continue.started += OnContinuePressed;
+        _playerControlls.UI.Continue.canceled += OnContinuePressed;
+
         #region Cheats
 
         _playerControlls.Gameplay.SpawnObj1.performed += OnSpawnObjCheat;
         _playerControlls.Gameplay.SpawnObj2.performed += OnSpawnObjCheat;
 
         #endregion Cheats
+    }
+
+    private void OnContinuePressed(InputAction.CallbackContext context)
+    {
+        IsContinuePressed = context.ReadValueAsButton();
     }
 
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
@@ -213,6 +223,9 @@ public class InputManager : MonoBehaviour
 
         _playerControlls.UI.Back.started -= OnEscPressed;
 
+        _playerControlls.UI.Continue.started -= OnContinuePressed;
+        _playerControlls.UI.Continue.canceled -= OnContinuePressed;
+
         #region Cheats
 
         _playerControlls.Gameplay.SpawnObj1.performed -= OnSpawnObjCheat;
@@ -255,5 +268,19 @@ public class InputManager : MonoBehaviour
             SetActionMap(_playerControlls.Gameplay);
         }
         
+    }
+
+    public void ToggleUIForTutorial(Component sender, object data)
+    {
+        if(sender is Tutorial)
+        {
+            if ((bool)data){
+                SetActionMap(_playerControlls.UI);
+            }
+            else
+            {
+                SetActionMap(_playerControlls.Gameplay);
+            }
+        }
     }
 }

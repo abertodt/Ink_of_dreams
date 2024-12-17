@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     public void ToggleDrawMode()
     { 
         if (CurrentState == GameState.Gameplay)

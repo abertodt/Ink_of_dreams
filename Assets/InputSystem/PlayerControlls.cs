@@ -313,6 +313,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Continue"",
+                    ""type"": ""Button"",
+                    ""id"": ""0a0efe67-a8c9-4319-831b-e5c304f47efa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -403,6 +412,17 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""action"": ""Back"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""12b6f8c8-f338-424e-822c-053372756a33"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Continue"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -428,6 +448,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
         m_UI_Select = m_UI.FindAction("Select", throwIfNotFound: true);
         m_UI_Back = m_UI.FindAction("Back", throwIfNotFound: true);
+        m_UI_Continue = m_UI.FindAction("Continue", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -648,6 +669,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Navigate;
     private readonly InputAction m_UI_Select;
     private readonly InputAction m_UI_Back;
+    private readonly InputAction m_UI_Continue;
     public struct UIActions
     {
         private @PlayerControlls m_Wrapper;
@@ -655,6 +677,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
         public InputAction @Select => m_Wrapper.m_UI_Select;
         public InputAction @Back => m_Wrapper.m_UI_Back;
+        public InputAction @Continue => m_Wrapper.m_UI_Continue;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -673,6 +696,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @Back.started += instance.OnBack;
             @Back.performed += instance.OnBack;
             @Back.canceled += instance.OnBack;
+            @Continue.started += instance.OnContinue;
+            @Continue.performed += instance.OnContinue;
+            @Continue.canceled += instance.OnContinue;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -686,6 +712,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @Back.started -= instance.OnBack;
             @Back.performed -= instance.OnBack;
             @Back.canceled -= instance.OnBack;
+            @Continue.started -= instance.OnContinue;
+            @Continue.performed -= instance.OnContinue;
+            @Continue.canceled -= instance.OnContinue;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -724,5 +753,6 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnNavigate(InputAction.CallbackContext context);
         void OnSelect(InputAction.CallbackContext context);
         void OnBack(InputAction.CallbackContext context);
+        void OnContinue(InputAction.CallbackContext context);
     }
 }
