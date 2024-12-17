@@ -152,14 +152,26 @@ public class GestureUtils
     {
         input = NormalizeStroke(input);
         input = ResampleStroke(input);
-
-        TemplateData? closestTemplate = null;
         float closestDistance = float.PositiveInfinity;
+
+        TemplateData? closestTemplate = TryFindClosestTemplate(input, templates, ref closestDistance);
+
+        if (closestTemplate == null)
+        {
+            List<Vector2> flippedInput = FlipStrokeHorizontally(input);
+            closestTemplate = TryFindClosestTemplate(flippedInput, templates, ref closestDistance);
+        }
+
+        return closestDistance <= _threshold ? closestTemplate : null;
+    }
+
+    private TemplateData? TryFindClosestTemplate(List<Vector2> input, List<TemplateData> templates, ref float closestDistance)
+    {
+        TemplateData? closestTemplate = null;
 
         foreach (var template in templates)
         {
-            List<Vector2> processedTemplate = ResampleStroke(NormalizeStroke(template.Positions));
-            float distance = CalculateDTW(input, processedTemplate);
+            float distance = CalculateDTW(input, template.Positions);
 
             if (distance < closestDistance)
             {
@@ -168,7 +180,16 @@ public class GestureUtils
             }
         }
 
-        // Return the closest template only if the distance is below the threshold
-        return closestDistance <= _threshold ? closestTemplate : null;
+        return closestTemplate;
+    }
+
+    private List<Vector2> FlipStrokeHorizontally(List<Vector2> input)
+    {
+        List<Vector2> flippedInput = new List<Vector2>(input);
+        for (int i = 0; i < flippedInput.Count; i++)
+        {
+            flippedInput[i] = new Vector2(-flippedInput[i].x, flippedInput[i].y);
+        }
+        return flippedInput;
     }
 }

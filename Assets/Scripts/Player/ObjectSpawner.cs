@@ -17,7 +17,8 @@ public class ObjectSpawner : MonoBehaviour
     {
         if(data is GameObject)
         {
-            GameObject spawnedObject = Instantiate((GameObject)data, transform.position, transform.rotation);
+            GameObject prefab = (GameObject)data;
+            GameObject spawnedObject = Instantiate(prefab, transform.position, prefab.transform.rotation);
 
             if (_splatterEffect != null)
             {
