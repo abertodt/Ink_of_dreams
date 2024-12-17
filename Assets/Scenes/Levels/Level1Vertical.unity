@@ -692,7 +692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f6ce710e69b7ee4ebbc56ee1b0e14bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _splatterEffect: {fileID: 0}
+  _splatterEffect: {fileID: 221530383928403993, guid: ce462ba2e62637e43b342ec933cfafe1, type: 3}
   _onObjectSpawn: {fileID: 11400000, guid: 2add967a5d32b724ca91ef497d101f62, type: 2}
 --- !u!114 &249077966
 MonoBehaviour:
@@ -3411,7 +3411,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -215.24811, y: -79}
+  m_AnchoredPosition: {x: -215.24811, y: 0}
   m_SizeDelta: {x: 430.49622, y: 107.624084}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2081034754
