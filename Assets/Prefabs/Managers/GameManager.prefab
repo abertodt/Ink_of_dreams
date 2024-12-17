@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _onCameraSwitch: {fileID: 11400000, guid: 85731129f7464794c8aebb8d2f802d0d, type: 2}
+  _onGameStateChange: {fileID: 11400000, guid: 16ebf63d17993754ba71bf011bb9cc5b, type: 2}
   OriginalCamera: {fileID: 0}
   SecondaryCamera: {fileID: 0}
 --- !u!114 &-783757658383093335

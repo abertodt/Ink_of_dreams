@@ -21,7 +21,8 @@ public class ObjectSpawner : MonoBehaviour
 
             if (_splatterEffect != null)
             {
-                Instantiate(_splatterEffect, transform.position, transform.rotation);
+                GameObject effect = Instantiate(_splatterEffect, transform.position, transform.rotation);
+                Destroy(effect, 2f);
             }
 
             _spawnedObjects.Enqueue(spawnedObject);

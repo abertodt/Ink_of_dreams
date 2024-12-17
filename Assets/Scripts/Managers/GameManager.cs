@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     [Header("Events")]
     [SerializeField] private GameEvent _onCameraSwitch;
+    [SerializeField] private GameEvent _onGameStateChange;
 
     private static GameManager _instance;
     public static GameManager Instance => _instance;
@@ -31,6 +32,8 @@ public class GameManager : MonoBehaviour
         if (CurrentState == newState) return;
 
         CurrentState = newState;
+
+        _onGameStateChange?.Raise(this, newState);
     }
     
 

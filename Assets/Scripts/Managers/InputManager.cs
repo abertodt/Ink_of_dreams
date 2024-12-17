@@ -246,4 +246,14 @@ public class InputManager : MonoBehaviour
 
         //Debug.Log($"{newActionMap.name} entered");
     }
+
+    //Borrar mas adelante para hacerlo correctamente
+    public void ReturnToGameplay(Component sender, object data) 
+    {
+        if(sender is GameManager && data is GameState.Gameplay)
+        {
+            SetActionMap(_playerControlls.Gameplay);
+        }
+        
+    }
 }

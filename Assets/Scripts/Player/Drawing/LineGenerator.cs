@@ -50,6 +50,7 @@ public class LineGenerator : MonoBehaviour
     private void OnEnable()
     {
         Cursor.lockState = CursorLockMode.None;
+        GameManager.Instance.ChangeState(GameState.Drawing);
     }
 
     private void StartLine()
