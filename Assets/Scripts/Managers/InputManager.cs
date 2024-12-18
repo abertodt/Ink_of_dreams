@@ -93,7 +93,8 @@ public class InputManager : MonoBehaviour
         _playerControlls.UI.Continue.started += OnContinuePressed;
         _playerControlls.UI.Continue.canceled += OnContinuePressed;
 
-        _playerControlls.DrawingMode.ToggleLegend.performed += OnToggleLegend;
+        _playerControlls.DrawingMode.ToggleLegend.started += OnToggleLegend;
+        _playerControlls.DrawingMode.ToggleLegend.canceled += OnToggleLegend;
 
         #region Cheats
 
@@ -233,7 +234,8 @@ public class InputManager : MonoBehaviour
         _playerControlls.UI.Continue.started -= OnContinuePressed;
         _playerControlls.UI.Continue.canceled -= OnContinuePressed;
 
-        _playerControlls.DrawingMode.ToggleLegend.performed -= OnToggleLegend;
+        _playerControlls.DrawingMode.ToggleLegend.started -= OnToggleLegend;
+        _playerControlls.DrawingMode.ToggleLegend.canceled -= OnToggleLegend;
 
         #region Cheats
 
