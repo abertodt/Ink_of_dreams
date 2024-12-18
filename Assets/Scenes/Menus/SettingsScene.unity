@@ -3190,7 +3190,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 434112426}
   m_HandleRect: {fileID: 413195147}
   m_Direction: 0
-  m_MinValue: -20
+  m_MinValue: -80
   m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
@@ -3525,6 +3525,7 @@ MonoBehaviour:
   _resolutionDropdown: {fileID: 539593410}
   _fullScreenToggle: {fileID: 596779943}
   _mainMixer: {fileID: 24100000, guid: dc2e3a2a5950d3c47835f580aeb93326, type: 2}
+  _volumeSlider: {fileID: 1790092276}
 --- !u!1 &1988158851
 GameObject:
   m_ObjectHideFlags: 0
