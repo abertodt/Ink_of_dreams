@@ -29,6 +29,7 @@ public class LineGenerator : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.CurrentState == GameState.Paused) return;
         if (_isErasing) return;
 
         if (Input.GetMouseButtonDown(0))

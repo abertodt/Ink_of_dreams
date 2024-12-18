@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] private GameObject _credits;
     private void OnEnable()
     {
         Cursor.lockState = CursorLockMode.None;
@@ -16,5 +17,10 @@ public class MainMenu : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public void ToggleCredits()
+    {
+        _credits.SetActive(!_credits.activeInHierarchy);
     }
 }

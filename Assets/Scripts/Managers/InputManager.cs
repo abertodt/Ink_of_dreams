@@ -38,8 +38,8 @@ public class InputManager : MonoBehaviour
     public bool IsDrawModeInputPressed { get; private set; }
     public Vector2 CameraRotation { get; private set; }
     public bool IsPauseInputPressed { get; private set; }
-
     public bool IsContinuePressed { get; private set; }
+    public bool IsToggleLegendPressed {  get; private set; }
 
     private void Awake()
     {
@@ -93,12 +93,19 @@ public class InputManager : MonoBehaviour
         _playerControlls.UI.Continue.started += OnContinuePressed;
         _playerControlls.UI.Continue.canceled += OnContinuePressed;
 
+        _playerControlls.DrawingMode.ToggleLegend.performed += OnToggleLegend;
+
         #region Cheats
 
         _playerControlls.Gameplay.SpawnObj1.performed += OnSpawnObjCheat;
         _playerControlls.Gameplay.SpawnObj2.performed += OnSpawnObjCheat;
 
         #endregion Cheats
+    }
+
+    private void OnToggleLegend(InputAction.CallbackContext context)
+    {
+        IsToggleLegendPressed = context.ReadValueAsButton();
     }
 
     private void OnContinuePressed(InputAction.CallbackContext context)
@@ -225,6 +232,8 @@ public class InputManager : MonoBehaviour
 
         _playerControlls.UI.Continue.started -= OnContinuePressed;
         _playerControlls.UI.Continue.canceled -= OnContinuePressed;
+
+        _playerControlls.DrawingMode.ToggleLegend.performed -= OnToggleLegend;
 
         #region Cheats
 

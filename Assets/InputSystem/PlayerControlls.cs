@@ -245,6 +245,15 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleLegend"",
+                    ""type"": ""Button"",
+                    ""id"": ""d273b388-288e-4b07-821a-3a5b45c59763"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -278,6 +287,17 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Return"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""20698204-8d97-43c4-8b38-339a9814119d"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleLegend"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -443,6 +463,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         m_DrawingMode_Draw = m_DrawingMode.FindAction("Draw", throwIfNotFound: true);
         m_DrawingMode_Erase = m_DrawingMode.FindAction("Erase", throwIfNotFound: true);
         m_DrawingMode_Return = m_DrawingMode.FindAction("Return", throwIfNotFound: true);
+        m_DrawingMode_ToggleLegend = m_DrawingMode.FindAction("ToggleLegend", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -607,6 +628,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
     private readonly InputAction m_DrawingMode_Draw;
     private readonly InputAction m_DrawingMode_Erase;
     private readonly InputAction m_DrawingMode_Return;
+    private readonly InputAction m_DrawingMode_ToggleLegend;
     public struct DrawingModeActions
     {
         private @PlayerControlls m_Wrapper;
@@ -614,6 +636,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         public InputAction @Draw => m_Wrapper.m_DrawingMode_Draw;
         public InputAction @Erase => m_Wrapper.m_DrawingMode_Erase;
         public InputAction @Return => m_Wrapper.m_DrawingMode_Return;
+        public InputAction @ToggleLegend => m_Wrapper.m_DrawingMode_ToggleLegend;
         public InputActionMap Get() { return m_Wrapper.m_DrawingMode; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -632,6 +655,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @Return.started += instance.OnReturn;
             @Return.performed += instance.OnReturn;
             @Return.canceled += instance.OnReturn;
+            @ToggleLegend.started += instance.OnToggleLegend;
+            @ToggleLegend.performed += instance.OnToggleLegend;
+            @ToggleLegend.canceled += instance.OnToggleLegend;
         }
 
         private void UnregisterCallbacks(IDrawingModeActions instance)
@@ -645,6 +671,9 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
             @Return.started -= instance.OnReturn;
             @Return.performed -= instance.OnReturn;
             @Return.canceled -= instance.OnReturn;
+            @ToggleLegend.started -= instance.OnToggleLegend;
+            @ToggleLegend.performed -= instance.OnToggleLegend;
+            @ToggleLegend.canceled -= instance.OnToggleLegend;
         }
 
         public void RemoveCallbacks(IDrawingModeActions instance)
@@ -747,6 +776,7 @@ public partial class @PlayerControlls: IInputActionCollection2, IDisposable
         void OnDraw(InputAction.CallbackContext context);
         void OnErase(InputAction.CallbackContext context);
         void OnReturn(InputAction.CallbackContext context);
+        void OnToggleLegend(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -20,6 +20,7 @@ public class Tutorial : MonoBehaviour
         if(InputManager.Instance.IsContinuePressed) 
         {
             gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }
