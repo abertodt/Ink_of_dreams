@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -13,6 +14,12 @@ public class CameraFollow : PausableMonoBehaviour
     [SerializeField] private float _rotationSpeed;
     [SerializeField] private float _minPitchRotation;
     [SerializeField] private float _maxPitchRotation;
+
+    [Header("SphereCast")]
+    [SerializeField] private float _sphereCastRadius;
+    [SerializeField] private float _distance;
+    [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private float _smoothSpeed;
 
     [Header("Settings")]
     [SerializeField] private GameEvent _onScreenshotTaken;
@@ -51,6 +58,21 @@ public class CameraFollow : PausableMonoBehaviour
 
 
         transform.rotation = Quaternion.Euler(_pitch, _yaw, 0f);
+
+        RaycastHit hit;
+
+        Vector3 direction = _camera.transform.position - transform.position;
+        direction.Normalize();
+
+        if (Physics.SphereCast(transform.position, _sphereCastRadius, direction, out hit, _distance, _layerMask))
+        {
+            _camera.transform.localPosition = Vector3.back * hit.distance;
+        }
+        else
+        {
+            Vector3 targetPosition = transform.position - transform.forward * _distance;
+            _camera.transform.position = Vector3.Lerp(_camera.transform.position, targetPosition, Time.deltaTime * _smoothSpeed);
+        }
 
         //Vector3 directionToTarget = _target.position - _camera.position;
         //Quaternion lookAtRotation = Quaternion.LookRotation(directionToTarget);

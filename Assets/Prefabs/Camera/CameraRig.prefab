@@ -226,6 +226,12 @@ MonoBehaviour:
   _rotationSpeed: 0.2
   _minPitchRotation: -45
   _maxPitchRotation: 45
+  _sphereCastRadius: 0.25
+  _distance: 3.5
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 55
+  _smoothSpeed: 1
   _onScreenshotTaken: {fileID: 11400000, guid: 1cf624769e7072c40b28822638e70f55, type: 2}
 --- !u!114 &-7497349345470236376
 MonoBehaviour:
